@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2013-02-02T00:16:02+11:00</updated>
-  <id>http://yoursite.com/</id>
+  <title><![CDATA[a place for things]]></title>
+  <link href="http://richo.github.com/atom.xml" rel="self"/>
+  <link href="http://richo.github.com/"/>
+  <updated>2013-02-02T00:22:38+11:00</updated>
+  <id>http://richo.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Richo Healey]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[i haxxidentally a new blog]]></title>
+    <link href="http://richo.github.com/blog/2013/02/02/i-haxxidentally-a-new-blog/"/>
+    <updated>2013-02-02T00:21:00+11:00</updated>
+    <id>http://richo.github.com/blog/2013/02/02/i-haxxidentally-a-new-blog</id>
+    <content type="html"><![CDATA[<p>I decided to setup another blog, for stuff that&#8217;s not really appropriate for <a href="1">psych0tik</a>.</p>
+]]></content>
+  </entry>
   
 </feed>
