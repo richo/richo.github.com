@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[a place for things]]></title>
-  <link href="http://richo.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: groundstation | a place for things]]></title>
+  <link href="http://richo.github.com/blog/categories/groundstation/atom.xml" rel="self"/>
   <link href="http://richo.github.com/"/>
   <updated>2013-03-21T01:02:48+11:00</updated>
   <id>http://richo.github.com/</id>
@@ -19,15 +19,15 @@
     <updated>2013-03-21T00:21:00+11:00</updated>
     <id>http://richo.github.com/blog/2013/03/21/so-i-presented-groundstation</id>
     <content type="html"><![CDATA[<p>So this evening I presented <a href="https://github.com/richo/groundstation">groundstation</a> at <a href="http://www.meetup.com/Melbourne-Hack-and-Tell/">Melbourne Hack and Tell</a>
-(Which is badass and if you&#8217;re in Melbourne you should show up to the next
+(Which is badass and if you're in Melbourne you should show up to the next
 one), but I wanted to wrap up some of the content.</p>
 
 <p>First off, what is groundstation, specifically?</p>
 
 <ol>
-<li>It&#8217;s a framework for syncing string of immutable objects.</li>
-<li>It dynamically discovers any peers on it&#8217;s local network.</li>
-<li>It uses git as it&#8217;s underlying storage, but it does NOT use git&#8217;s data structures.</li>
+<li>It's a framework for syncing string of immutable objects.</li>
+<li>It dynamically discovers any peers on it's local network.</li>
+<li>It uses git as it's underlying storage, but it does NOT use git's data structures.</li>
 </ol>
 
 
@@ -37,31 +37,22 @@ one), but I wanted to wrap up some of the content.</p>
 airship, can let you and anyone else using groundstation interact with the
 database, and your changes will be synced.</p>
 
-<p>It currently can&#8217;t push it&#8217;s changes back up to those systems.</p>
+<p>It currently can't push it's changes back up to those systems.</p>
 
-<p>Secondly, it can sync a git repo, however it CANNOT sync your refs, so you&#8217;re
+<p>Secondly, it can sync a git repo, however it CANNOT sync your refs, so you're
 on your own to communicate updates to branches amongst your peers.</p>
 
 <p>My next steps are optimising the sync protocol for multiple peers, implementing
-a routing layer for nodes that aren&#8217;t on the same local network, and
+a routing layer for nodes that aren't on the same local network, and
 implementing tip signing.</p>
 
-<p>The primary purpose of this post is to reach out to anyone who&#8217;s using or
-considering using it. I&#8217;d love to hear from you, hear what you&#8217;re doing and
-issues you&#8217;re having.</p>
+<p>The primary purpose of this post is to reach out to anyone who's using or
+considering using it. I'd love to hear from you, hear what you're doing and
+issues you're having.</p>
 
 <p>My intention is to build a distributed platform on which other apps can be
-built, so please if you&#8217;re doing something cool (or thinking about it!) let me
+built, so please if you're doing something cool (or thinking about it!) let me
 know.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[i haxxidentally a new blog]]></title>
-    <link href="http://richo.github.com/blog/2013/02/02/i-haxxidentally-a-new-blog/"/>
-    <updated>2013-02-02T00:21:00+11:00</updated>
-    <id>http://richo.github.com/blog/2013/02/02/i-haxxidentally-a-new-blog</id>
-    <content type="html"><![CDATA[<p>I decided to setup another blog, for stuff that&#8217;s not really appropriate for <a href="1">psych0tik</a>.</p>
 ]]></content>
   </entry>
   
