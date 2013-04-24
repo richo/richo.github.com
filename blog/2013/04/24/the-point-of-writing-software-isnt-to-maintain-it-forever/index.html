@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>a place for things</title>
+  <title>the point of writing software isn't to maintain it forever - a place for things</title>
   <meta name="author" content="Richo Healey">
 
   
@@ -19,7 +19,7 @@ software I wrote when I was first learning Ruby. It more or less does what it &h
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://richo.github.com/">
+  <link rel="canonical" href="http://richo.github.com/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,15 +63,12 @@ software I wrote when I was first learning Ruby. It more or less does what it &h
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/">The Point of Writing Software Isn&#8217;t to Maintain It Forever</a></h1>
+      <h1 class="entry-title">The Point of Writing Software Isn't to Maintain It Forever</h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@ software I wrote when I was first learning Ruby. It more or less does what it &h
   </header>
 
 
-  <div class="entry-content"><p>Today I went to install <a href="https://github.com/richo/twat">twat</a>, an admittedly slightly buggy piece of
+<div class="entry-content"><p>Today I went to install <a href="https://github.com/richo/twat">twat</a>, an admittedly slightly buggy piece of
 software I wrote when I was first learning Ruby. It more or less does what it
 says on the tin, but when I went to install it, I discovered that <a href="http://rubygems.org/gems/twitter/versions">all the versions of the twitter gem it used have been yanked</a>.
 I get it. You shouldn&#8217;t be writing new software using old, unmaintained versions of gems.</p>
@@ -118,92 +115,16 @@ some version and change some internal details?</p>
 
 <p>TL;DR why on earth would you yank working software?</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/21/so-i-presented-groundstation/">So I Presented Groundstation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Richo Healey</span></span>
 
-<time datetime="2013-03-21T00:21:00+11:00" pubdate data-updated="true">Mar 21<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So this evening I presented <a href="https://github.com/richo/groundstation">groundstation</a> at <a href="http://www.meetup.com/Melbourne-Hack-and-Tell/">Melbourne Hack and Tell</a>
-(Which is badass and if you&#8217;re in Melbourne you should show up to the next
-one), but I wanted to wrap up some of the content.</p>
-
-<p>First off, what is groundstation, specifically?</p>
-
-<ol>
-<li>It&#8217;s a framework for syncing string of immutable objects.</li>
-<li>It dynamically discovers any peers on it&#8217;s local network.</li>
-<li>It uses git as it&#8217;s underlying storage, but it does NOT use git&#8217;s data structures.</li>
-</ol>
-
-
-<p>Right now, it can do two main things.</p>
-
-<p>The first is importing issues from github or jira. The included web interface,
-airship, can let you and anyone else using groundstation interact with the
-database, and your changes will be synced.</p>
-
-<p>It currently can&#8217;t push it&#8217;s changes back up to those systems.</p>
-
-<p>Secondly, it can sync a git repo, however it CANNOT sync your refs, so you&#8217;re
-on your own to communicate updates to branches amongst your peers.</p>
-
-<p>My next steps are optimising the sync protocol for multiple peers, implementing
-a routing layer for nodes that aren&#8217;t on the same local network, and
-implementing tip signing.</p>
-
-<p>The primary purpose of this post is to reach out to anyone who&#8217;s using or
-considering using it. I&#8217;d love to hear from you, hear what you&#8217;re doing and
-issues you&#8217;re having.</p>
-
-<p>My intention is to build a distributed platform on which other apps can be
-built, so please if you&#8217;re doing something cool (or thinking about it!) let me
-know.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/02/i-haxxidentally-a-new-blog/">I Haxxidentally a New Blog</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -215,27 +136,40 @@ know.</p>
   
 
 
-<time datetime="2013-02-02T00:21:00+11:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2013</time>
-        
-      </p>
+<time datetime="2013-04-24T12:02:00+10:00" pubdate data-updated="true">Apr 24<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/maintenaince/'>maintenaince</a>, <a class='category' href='/blog/categories/release/'>release</a>, <a class='category' href='/blog/categories/software/'>software</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>I decided to setup another blog, for stuff that&#8217;s not really appropriate for <a href="1">psych0tik</a>.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://richo.github.com/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/" data-via="rich0H" data-counturl="http://richo.github.com/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/21/so-i-presented-groundstation/" title="Previous Post: so I presented groundstation">&laquo; so I presented groundstation</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -243,7 +177,7 @@ know.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/">the point of writing software isn&#8217;t to maintain it forever</a>
+        <a href="/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/">the point of writing software isn't to maintain it forever</a>
       </li>
     
       <li class="post">
@@ -260,7 +194,7 @@ know.</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/richo">@richo</a> on GitHub
@@ -290,7 +224,7 @@ know.</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -308,6 +242,7 @@ know.</p>
 
   
 </aside>
+
 
     </div>
   </div>

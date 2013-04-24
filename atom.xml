@@ -4,7 +4,7 @@
   <title><![CDATA[a place for things]]></title>
   <link href="http://richo.github.com/atom.xml" rel="self"/>
   <link href="http://richo.github.com/"/>
-  <updated>2013-03-21T01:02:48+11:00</updated>
+  <updated>2013-04-24T12:11:44+10:00</updated>
   <id>http://richo.github.com/</id>
   <author>
     <name><![CDATA[Richo Healey]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[the point of writing software isn't to maintain it forever]]></title>
+    <link href="http://richo.github.com/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever/"/>
+    <updated>2013-04-24T12:02:00+10:00</updated>
+    <id>http://richo.github.com/blog/2013/04/24/the-point-of-writing-software-isnt-to-maintain-it-forever</id>
+    <content type="html"><![CDATA[<p>Today I went to install <a href="https://github.com/richo/twat">twat</a>, an admittedly slightly buggy piece of
+software I wrote when I was first learning Ruby. It more or less does what it
+says on the tin, but when I went to install it, I discovered that <a href="http://rubygems.org/gems/twitter/versions">all the versions of the twitter gem it used have been yanked</a>.
+I get it. You shouldn&#8217;t be writing new software using old, unmaintained versions of gems.</p>
+
+<p>However, <em>releases</em> are just that. Released. Snapshots. Yanking them will break
+things. Unless something is actually broken (critical bug, security issue) I
+don&#8217;t understand the rationale for doing this. The only explaination is that
+you want people to update, which hinges on the predicate that people are still
+working on all the software it uses.</p>
+
+<p><em>This isn&#8217;t always the case</em>. The version of cron(8) that OSX ships with hasn&#8217;t
+been touched since 1994. (From it&#8217;s <a href="ftp://ftp.isc.org/isc/cron/cron_4.1.shar">release notes</a>, I can&#8217;t find it&#8217;s homepage:</p>
+
+<p>Vixie Cron      V3.0 Patch 2 notes
+Paul Vixie
+12-Dec-1994</p>
+
+<p>Can you imagine if someone broke a dependency of this arbitrarily? Do you think
+Paul Vixie really wants to hack on this for the first time in 20 years to bump
+some version and change some internal details?</p>
+
+<p>TL;DR why on earth would you yank working software?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[so I presented groundstation]]></title>
