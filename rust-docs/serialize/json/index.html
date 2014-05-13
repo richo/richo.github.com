@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The serialize library documentation.">
+
+    <title>serialize::json - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../../serialize/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='../index.html'>serialize</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../base64/index.html'>base64</a><br/><a class='mod ' href='../ebml/index.html'>ebml</a><br/><a class='mod ' href='../hex/index.html'>hex</a><br/><a class='mod current' href='../json/index.html'>json</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='../trait.Decodable.html'>Decodable</a><br/><a class='trait ' href='../trait.Decoder.html'>Decoder</a><br/><a class='trait ' href='../trait.DecoderHelpers.html'>DecoderHelpers</a><br/><a class='trait ' href='../trait.Encodable.html'>Encodable</a><br/><a class='trait ' href='../trait.Encoder.html'>Encoder</a><br/><a class='trait ' href='../trait.EncoderHelpers.html'>EncoderHelpers</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'>Module <a href='../index.html'>serialize</a>::<a class='mod' href=''>json</a><a class='source' href='../../src/serialize/Users/richo/code/ext/rust/src/libserialize/json.rs.html#14-3396'>[src]</a></h1>
+<div class='docblock'><p>JSON parsing and serialization</p>
+
+<h1 id="what-is-json?" class='section-header'><a
+                           href="#what-is-json?">What is JSON?</a></h1>
+<p>JSON (JavaScript Object Notation) is a way to write data in Javascript.
+Like XML it allows one to encode structured data in a text format that can be read by humans easily.
+Its native compatibility with JavaScript and its simple syntax make it used widely.</p>
+
+<p>Json data are encoded in a form of &quot;key&quot;:&quot;value&quot;.
+Data types that can be encoded are JavaScript types :
+boolean (<code>true</code> or <code>false</code>), number (<code>f64</code>), string, array, object, null.
+An object is a series of string keys mapping to values, in <code>&quot;key&quot;: value</code> format.
+Arrays are enclosed in square brackets ([ ... ]) and objects in curly brackets ({ ... }).
+A simple JSON document encoding a person, his/her age, address and phone numbers could look like:</p>
+<pre class='rust '>
+{
+    <span class='string'>&quot;FirstName&quot;</span>: <span class='string'>&quot;John&quot;</span>,
+    <span class='string'>&quot;LastName&quot;</span>: <span class='string'>&quot;Doe&quot;</span>,
+    <span class='string'>&quot;Age&quot;</span>: <span class='number'>43</span>,
+    <span class='string'>&quot;Address&quot;</span>: {
+        <span class='string'>&quot;Street&quot;</span>: <span class='string'>&quot;Downing Street 10&quot;</span>,
+        <span class='string'>&quot;City&quot;</span>: <span class='string'>&quot;London&quot;</span>,
+        <span class='string'>&quot;Country&quot;</span>: <span class='string'>&quot;Great Britain&quot;</span>
+    },
+    <span class='string'>&quot;PhoneNumbers&quot;</span>: [
+        <span class='string'>&quot;+44 1234567&quot;</span>,
+        <span class='string'>&quot;+44 2345678&quot;</span>
+    ]
+}
+</pre>
+
+<h1 id="rust-type-based-encoding-and-decoding" class='section-header'><a
+                           href="#rust-type-based-encoding-and-decoding">Rust Type-based Encoding and Decoding</a></h1>
+<p>Rust provides a mechanism for low boilerplate encoding &amp; decoding
+of values to and from JSON via the serialization API.
+To be able to encode a piece of data, it must implement the <code>serialize::Encodable</code> trait.
+To be able to decode a piece of data, it must implement the <code>serialize::Decodable</code> trait.
+The Rust compiler provides an annotation to automatically generate
+the code for these traits: <code>#[deriving(Decodable, Encodable)]</code></p>
+
+<p>To encode using Encodable :</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
+<span class='kw'>use</span> <span class='ident'>serialize</span>::{<span class='ident'>json</span>, <span class='ident'>Encodable</span>};
+
+ <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Encodable</span>)]</span>
+ <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TestStruct</span>   {
+    <span class='ident'>data_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span>,
+ }
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>to_encode_object</span> <span class='op'>=</span> <span class='ident'>TestStruct</span>{<span class='ident'>data_str</span>:<span class='string'>&quot;example of string to encode&quot;</span>.<span class='ident'>to_owned</span>()};
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='ident'>MemWriter</span>::<span class='ident'>new</span>();
+    {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>encoder</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>Encoder</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Writer</span>);
+        <span class='kw'>match</span> <span class='ident'>to_encode_object</span>.<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>encoder</span>) {
+            <span class='prelude-val'>Ok</span>(()) <span class='op'>=&gt;</span> (),
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;json encoding error: {}&quot;</span>, <span class='ident'>e</span>)
+        };
+    }
+}
+</pre>
+
+<p>Two wrapper functions are provided to encode a Encodable object
+into a string (~str) or buffer (~[u8]): <code>str_encode(&amp;m)</code> and <code>buffer_encode(&amp;m)</code>.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>json</span>;
+<span class='kw'>let</span> <span class='ident'>to_encode_object</span> <span class='op'>=</span> <span class='string'>&quot;example of string to encode&quot;</span>.<span class='ident'>to_owned</span>();
+<span class='kw'>let</span> <span class='ident'>encoded_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>Encoder</span>::<span class='ident'>str_encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>to_encode_object</span>);
+</pre>
+
+<p>JSON API provide an enum <code>json::Json</code> and a trait <code>ToJson</code> to encode object.
+The trait <code>ToJson</code> encode object into a container <code>json::Json</code> and the API provide writer
+to encode them into a stream or a string ...</p>
+
+<p>When using <code>ToJson</code> the <code>Encodable</code> trait implementation is not mandatory.</p>
+
+<p>A basic <code>ToJson</code> example using a TreeMap of attribute name / attribute value:</p>
+<pre class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>collections</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
+
+<span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>json</span>;
+<span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>json</span>::<span class='ident'>ToJson</span>;
+<span class='kw'>use</span> <span class='ident'>collections</span>::<span class='ident'>TreeMap</span>;
+
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MyStruct</span>  {
+    <span class='ident'>attr1</span>: <span class='ident'>u8</span>,
+    <span class='ident'>attr2</span>: <span class='kw-2'>~</span><span class='ident'>str</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>ToJson</span> <span class='kw'>for</span> <span class='ident'>MyStruct</span> {
+    <span class='kw'>fn</span> <span class='ident'>to_json</span>( <span class='kw-2'>&amp;</span><span class='self'>self</span> ) <span class='op'>-&gt;</span> <span class='ident'>json</span>::<span class='ident'>Json</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>TreeMap</span>::<span class='ident'>new</span>();
+        <span class='ident'>d</span>.<span class='ident'>insert</span>(<span class='string'>&quot;attr1&quot;</span>.<span class='ident'>to_owned</span>(), <span class='self'>self</span>.<span class='ident'>attr1</span>.<span class='ident'>to_json</span>());
+        <span class='ident'>d</span>.<span class='ident'>insert</span>(<span class='string'>&quot;attr2&quot;</span>.<span class='ident'>to_owned</span>(), <span class='self'>self</span>.<span class='ident'>attr2</span>.<span class='ident'>to_json</span>());
+        <span class='ident'>json</span>::<span class='ident'>Object</span>(<span class='ident'>d</span>)
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>test2</span>: <span class='ident'>MyStruct</span> <span class='op'>=</span> <span class='ident'>MyStruct</span> {<span class='ident'>attr1</span>: <span class='number'>1</span>, <span class='ident'>attr2</span>:<span class='string'>&quot;test&quot;</span>.<span class='ident'>to_owned</span>()};
+    <span class='kw'>let</span> <span class='ident'>tjson</span>: <span class='ident'>json</span>::<span class='ident'>Json</span> <span class='op'>=</span> <span class='ident'>test2</span>.<span class='ident'>to_json</span>();
+    <span class='kw'>let</span> <span class='ident'>json_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>tjson</span>.<span class='ident'>to_str</span>();
+}
+</pre>
+
+<p>To decode a JSON string using <code>Decodable</code> trait :</p>
+<pre class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
+<span class='kw'>use</span> <span class='ident'>serialize</span>::{<span class='ident'>json</span>, <span class='ident'>Decodable</span>};
+
+<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Decodable</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MyStruct</span>  {
+     <span class='ident'>attr1</span>: <span class='ident'>u8</span>,
+     <span class='ident'>attr2</span>: <span class='kw-2'>~</span><span class='ident'>str</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>json_str_to_decode</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span>
+            <span class='string'>&quot;{\&quot;attr1\&quot;:1,\&quot;attr2\&quot;:\&quot;toto\&quot;}&quot;</span>.<span class='ident'>to_owned</span>();
+    <span class='kw'>let</span> <span class='ident'>json_object</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>from_str</span>(<span class='ident'>json_str_to_decode</span>);
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>decoder</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>Decoder</span>::<span class='ident'>new</span>(<span class='ident'>json_object</span>.<span class='ident'>unwrap</span>());
+    <span class='kw'>let</span> <span class='ident'>decoded_object</span>: <span class='ident'>MyStruct</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Decodable</span>::<span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>decoder</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
+        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;Decoding error: {}&quot;</span>, <span class='ident'>e</span>)
+    };<span class='comment'> // create the final object
+</span>}
+</pre>
+
+<h1 id="examples-of-use" class='section-header'><a
+                           href="#examples-of-use">Examples of use</a></h1>
+<h2 id="using-autoserialization" class='section-header'><a
+                           href="#using-autoserialization">Using Autoserialization</a></h2>
+<p>Create a struct called TestStruct1 and serialize and deserialize it to and from JSON
+using the serialization API, using the derived serialization code.</p>
+<pre class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
+<span class='kw'>use</span> <span class='ident'>serialize</span>::{<span class='ident'>json</span>, <span class='ident'>Encodable</span>, <span class='ident'>Decodable</span>};
+
+ <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Decodable</span>, <span class='ident'>Encodable</span>)]</span><span class='comment'> //generate Decodable, Encodable impl.
+ </span><span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TestStruct1</span>  {
+    <span class='ident'>data_int</span>: <span class='ident'>u8</span>,
+    <span class='ident'>data_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span>,
+    <span class='ident'>data_vector</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
+ }<span class='comment'>
+
+// To serialize use the `json::str_encode` to encode an object in a string.
+// It calls the generated `Encodable` impl.
+</span><span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>to_encode_object</span> <span class='op'>=</span> <span class='ident'>TestStruct1</span>
+         {<span class='ident'>data_int</span>: <span class='number'>1</span>, <span class='ident'>data_str</span>:<span class='string'>&quot;toto&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>data_vector</span>:<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>2</span>,<span class='number'>3</span>,<span class='number'>4</span>,<span class='number'>5</span>]};
+    <span class='kw'>let</span> <span class='ident'>encoded_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>Encoder</span>::<span class='ident'>str_encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>to_encode_object</span>);<span class='comment'>
+
+    // To deserialize use the `json::from_str` and `json::Decoder`
+
+    </span><span class='kw'>let</span> <span class='ident'>json_object</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>from_str</span>(<span class='ident'>encoded_str</span>);
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>decoder</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>Decoder</span>::<span class='ident'>new</span>(<span class='ident'>json_object</span>.<span class='ident'>unwrap</span>());
+    <span class='kw'>let</span> <span class='ident'>decoded1</span>: <span class='ident'>TestStruct1</span> <span class='op'>=</span> <span class='ident'>Decodable</span>::<span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>decoder</span>).<span class='ident'>unwrap</span>();<span class='comment'> // create the final object
+</span>}
+</pre>
+
+<h2 id="using-tojson" class='section-header'><a
+                           href="#using-tojson">Using <code>ToJson</code></a></h2>
+<p>This example use the ToJson impl to deserialize the JSON string.
+Example of <code>ToJson</code> trait implementation for TestStruct1.</p>
+<pre class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>collections</span>;
+
+<span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>json</span>::<span class='ident'>ToJson</span>;
+<span class='kw'>use</span> <span class='ident'>serialize</span>::{<span class='ident'>json</span>, <span class='ident'>Encodable</span>, <span class='ident'>Decodable</span>};
+<span class='kw'>use</span> <span class='ident'>collections</span>::<span class='ident'>TreeMap</span>;
+
+<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Decodable</span>, <span class='ident'>Encodable</span>)]</span><span class='comment'> // generate Decodable, Encodable impl.
+</span><span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TestStruct1</span>  {
+    <span class='ident'>data_int</span>: <span class='ident'>u8</span>,
+    <span class='ident'>data_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span>,
+    <span class='ident'>data_vector</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>ToJson</span> <span class='kw'>for</span> <span class='ident'>TestStruct1</span> {
+    <span class='kw'>fn</span> <span class='ident'>to_json</span>( <span class='kw-2'>&amp;</span><span class='self'>self</span> ) <span class='op'>-&gt;</span> <span class='ident'>json</span>::<span class='ident'>Json</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>TreeMap</span>::<span class='ident'>new</span>();
+        <span class='ident'>d</span>.<span class='ident'>insert</span>(<span class='string'>&quot;data_int&quot;</span>.<span class='ident'>to_owned</span>(), <span class='self'>self</span>.<span class='ident'>data_int</span>.<span class='ident'>to_json</span>());
+        <span class='ident'>d</span>.<span class='ident'>insert</span>(<span class='string'>&quot;data_str&quot;</span>.<span class='ident'>to_owned</span>(), <span class='self'>self</span>.<span class='ident'>data_str</span>.<span class='ident'>to_json</span>());
+        <span class='ident'>d</span>.<span class='ident'>insert</span>(<span class='string'>&quot;data_vector&quot;</span>.<span class='ident'>to_owned</span>(), <span class='self'>self</span>.<span class='ident'>data_vector</span>.<span class='ident'>to_json</span>());
+        <span class='ident'>json</span>::<span class='ident'>Object</span>(<span class='ident'>d</span>)
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {<span class='comment'>
+    // Serialization using our impl of to_json
+
+    </span><span class='kw'>let</span> <span class='ident'>test2</span>: <span class='ident'>TestStruct1</span> <span class='op'>=</span> <span class='ident'>TestStruct1</span> {<span class='ident'>data_int</span>: <span class='number'>1</span>, <span class='ident'>data_str</span>:<span class='string'>&quot;toto&quot;</span>.<span class='ident'>to_owned</span>(),
+                                          <span class='ident'>data_vector</span>:<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>2</span>,<span class='number'>3</span>,<span class='number'>4</span>,<span class='number'>5</span>]};
+    <span class='kw'>let</span> <span class='ident'>tjson</span>: <span class='ident'>json</span>::<span class='ident'>Json</span> <span class='op'>=</span> <span class='ident'>test2</span>.<span class='ident'>to_json</span>();
+    <span class='kw'>let</span> <span class='ident'>json_str</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>tjson</span>.<span class='ident'>to_str</span>();<span class='comment'>
+
+    // Deserialize like before.
+
+    </span><span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>decoder</span> <span class='op'>=</span> <span class='ident'>json</span>::<span class='ident'>Decoder</span>::<span class='ident'>new</span>(<span class='ident'>json</span>::<span class='ident'>from_str</span>(<span class='ident'>json_str</span>).<span class='ident'>unwrap</span>());<span class='comment'>
+    // create the final object
+    </span><span class='kw'>let</span> <span class='ident'>decoded2</span>: <span class='ident'>TestStruct1</span> <span class='op'>=</span> <span class='ident'>Decodable</span>::<span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>decoder</span>).<span class='ident'>unwrap</span>();
+}
+</pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr>
+                        <td><a class='struct' href='struct.Builder.html'
+                               title='serialize::json::Builder'>Builder</a></td>
+                        <td class='docblock short'><p>A Builder consumes a json::Parser to create a generic Json structure.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='struct' href='struct.Decoder.html'
+                               title='serialize::json::Decoder'>Decoder</a></td>
+                        <td class='docblock short'><p>A structure to decode JSON to values in rust.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='struct' href='struct.Encoder.html'
+                               title='serialize::json::Encoder'>Encoder</a></td>
+                        <td class='docblock short'><p>A structure for implementing serialization to JSON.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='struct' href='struct.Parser.html'
+                               title='serialize::json::Parser'>Parser</a></td>
+                        <td class='docblock short'><p>A streaming JSON parser implemented as an iterator of JsonEvent, consuming
+an iterator of char.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='struct' href='struct.PrettyEncoder.html'
+                               title='serialize::json::PrettyEncoder'>PrettyEncoder</a></td>
+                        <td class='docblock short'><p>Another encoder for JSON, but prints out human-readable JSON instead of
+compact data</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='struct' href='struct.Stack.html'
+                               title='serialize::json::Stack'>Stack</a></td>
+                        <td class='docblock short'><p>A Stack represents the current position of the parser in the logical
+structure of the JSON stream.
+For example foo.bar[3].x</p>
+</td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='type' href='type.DecoderError.html'
+                               title='serialize::json::DecoderError'>DecoderError</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.ErrorCode.html'
+                               title='serialize::json::ErrorCode'>ErrorCode</a></td>
+                        <td class='docblock short'><p>The errors that can arise while parsing a JSON stream.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.Json.html'
+                               title='serialize::json::Json'>Json</a></td>
+                        <td class='docblock short'><p>Represents a json value</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.JsonEvent.html'
+                               title='serialize::json::JsonEvent'>JsonEvent</a></td>
+                        <td class='docblock short'><p>The output of the streaming parser.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.ParserError.html'
+                               title='serialize::json::ParserError'>ParserError</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.StackElement.html'
+                               title='serialize::json::StackElement'>StackElement</a></td>
+                        <td class='docblock short'><p>StackElements compose a Stack.
+For example, Key(&quot;foo&quot;), Key(&quot;bar&quot;), Index(3) and Key(&quot;x&quot;) are the
+StackElements compositing the stack that represents foo.bar[3].x</p>
+</td>
+                    </tr>
+                </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                    <tr>
+                        <td><a class='trait' href='trait.ToJson.html'
+                               title='serialize::json::ToJson'>ToJson</a></td>
+                        <td class='docblock short'><p>A trait for converting values to JSON</p>
+</td>
+                    </tr>
+                </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                    <tr>
+                        <td><a class='fn' href='fn.error_str.html'
+                               title='serialize::json::error_str'>error_str</a></td>
+                        <td class='docblock short'><p>Returns a readable error string for a given error code.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='fn' href='fn.from_reader.html'
+                               title='serialize::json::from_reader'>from_reader</a></td>
+                        <td class='docblock short'><p>Decodes a json value from an <code>&amp;mut io::Reader</code></p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='fn' href='fn.from_str.html'
+                               title='serialize::json::from_str'>from_str</a></td>
+                        <td class='docblock short'><p>Decodes a json value from a string</p>
+</td>
+                    </tr>
+                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                    <tr>
+                        <td><a class='type' href='type.BuilderError.html'
+                               title='serialize::json::BuilderError'>BuilderError</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.DecodeResult.html'
+                               title='serialize::json::DecodeResult'>DecodeResult</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.EncodeResult.html'
+                               title='serialize::json::EncodeResult'>EncodeResult</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.List.html'
+                               title='serialize::json::List'>List</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='type' href='type.Object.html'
+                               title='serialize::json::Object'>Object</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../";
+        var currentCrate = "serialize";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

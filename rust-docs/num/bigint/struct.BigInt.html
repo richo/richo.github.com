@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The num library documentation.">
+
+    <title>num::bigint::BigInt - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../../num/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='../index.html'>num</a>&#8203;::<a href='index.html'>bigint</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='BigDigit/index.html'>BigDigit</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.BigInt.html'>BigInt</a><br/><a class='struct ' href='struct.BigUint.html'>BigUint</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.RandBigInt.html'>RandBigInt</a><br/><a class='trait ' href='trait.ToBigInt.html'>ToBigInt</a><br/><a class='trait ' href='trait.ToBigUint.html'>ToBigUint</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='../index.html'>num</a>::<a href='index.html'>bigint</a>::<a class='struct' href=''>BigInt</a><a class='source' href='../../src/num/Users/richo/code/ext/rust/src/libnum/bigint.rs.html#798-801'>[src]</a></h1>
+<pre class='rust struct'>pub struct BigInt {
+    // some fields omitted
+}</pre><div class='docblock'><p>A big signed integer type.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(sign: <a class='type' href='../../num/bigint/type.Sign.html' title='num::bigint::Sign'>Sign</a>, v: <a class='struct' href='../../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;<a class='type' href='../../num/bigint/type.BigDigit.html' title='num::bigint::BigDigit'>BigDigit</a>&gt;) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<div class='docblock'><p>Creates and initializes a BigInt.</p>
+</div><h4 id='method.from_biguint' class='method'><code>fn <a href='#method.from_biguint' class='fnname'>from_biguint</a>(sign: <a class='type' href='../../num/bigint/type.Sign.html' title='num::bigint::Sign'>Sign</a>, data: <a class='struct' href='../../num/bigint/struct.BigUint.html' title='num::bigint::BigUint'>BigUint</a>) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<div class='docblock'><p>Creates and initializes a <code>BigInt</code>.</p>
+</div><h4 id='method.from_slice' class='method'><code>fn <a href='#method.from_slice' class='fnname'>from_slice</a>(sign: <a class='type' href='../../num/bigint/type.Sign.html' title='num::bigint::Sign'>Sign</a>, slice: &amp;[<a class='type' href='../../num/bigint/type.BigDigit.html' title='num::bigint::BigDigit'>BigDigit</a>]) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<div class='docblock'><p>Creates and initializes a <code>BigInt</code>.</p>
+</div><h4 id='method.parse_bytes' class='method'><code>fn <a href='#method.parse_bytes' class='fnname'>parse_bytes</a>(buf: &amp;[u8], radix: uint) -&gt; <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>&gt;</code></h4>
+<div class='docblock'><p>Creates and initializes a <code>BigInt</code>.</p>
+</div><h4 id='method.to_biguint' class='method'><code>fn <a href='#method.to_biguint' class='fnname'>to_biguint</a>(&amp;self) -&gt; <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../num/bigint/struct.BigUint.html' title='num::bigint::BigUint'>BigUint</a>&gt;</code></h4>
+<div class='docblock'><p>Converts this <code>BigInt</code> into a <code>BigUint</code>, if it&#39;s not negative.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../num/bigint/trait.ToBigUint.html' title='num::bigint::ToBigUint'>ToBigUint</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='methods'><h4 id='method.to_biguint' class='method'><code>fn <a href='#method.to_biguint' class='fnname'>to_biguint</a>(&amp;self) -&gt; <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../num/bigint/struct.BigUint.html' title='num::bigint::BigUint'>BigUint</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../num/trait.Integer.html' title='num::Integer'>Integer</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='methods'><h4 id='method.div_rem' class='method'><code>fn <a href='#method.div_rem' class='fnname'>div_rem</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; (<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>, <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>)</code></h4>
+<h4 id='method.div_floor' class='method'><code>fn <a href='#method.div_floor' class='fnname'>div_floor</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<h4 id='method.mod_floor' class='method'><code>fn <a href='#method.mod_floor' class='fnname'>mod_floor</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<h4 id='method.div_mod_floor' class='method'><code>fn <a href='#method.div_mod_floor' class='fnname'>div_mod_floor</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; (<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>, <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>)</code></h4>
+<h4 id='method.gcd' class='method'><code>fn <a href='#method.gcd' class='fnname'>gcd</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<div class='docblock'><p>Calculates the Greatest Common Divisor (GCD) of the number and <code>other</code></p>
+
+<p>The result is always positive</p>
+</div><h4 id='method.lcm' class='method'><code>fn <a href='#method.lcm' class='fnname'>lcm</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h4>
+<div class='docblock'><p>Calculates the Lowest Common Multiple (LCM) of the number and <code>other</code></p>
+</div><h4 id='method.divides' class='method'><code>fn <a href='#method.divides' class='fnname'>divides</a>(&amp;self, other: &amp;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>) -&gt; bool</code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the number can be divided by <code>other</code> without leaving a remainder</p>
+</div><h4 id='method.is_even' class='method'><code>fn <a href='#method.is_even' class='fnname'>is_even</a>(&amp;self) -&gt; bool</code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the number is divisible by <code>2</code></p>
+</div><h4 id='method.is_odd' class='method'><code>fn <a href='#method.is_odd' class='fnname'>is_odd</a>(&amp;self) -&gt; bool</code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the number is not divisible by <code>2</code></p>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../../num/bigint/trait.ToBigInt.html' title='num::bigint::ToBigInt'>ToBigInt</a> for <a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a></code></h3><div class='methods'><h4 id='method.to_bigint' class='method'><code>fn <a href='#method.to_bigint' class='fnname'>to_bigint</a>(&amp;self) -&gt; <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../num/bigint/struct.BigInt.html' title='num::bigint::BigInt'>BigInt</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../";
+        var currentCrate = "num";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

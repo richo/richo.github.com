@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The rand library documentation.">
+
+    <title>rand::Rng - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../rand/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='index.html'>rand</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='distributions/index.html'>distributions</a><br/><a class='mod ' href='isaac/index.html'>isaac</a><br/><a class='mod ' href='os/index.html'>os</a><br/><a class='mod ' href='reader/index.html'>reader</a><br/><a class='mod ' href='reseeding/index.html'>reseeding</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Closed01.html'>Closed01</a><br/><a class='struct ' href='struct.OSRng.html'>OSRng</a><br/><a class='struct ' href='struct.Open01.html'>Open01</a><br/><a class='struct ' href='struct.StdRng.html'>StdRng</a><br/><a class='struct ' href='struct.TaskRng.html'>TaskRng</a><br/><a class='struct ' href='struct.XorShiftRng.html'>XorShiftRng</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Rand.html'>Rand</a><br/><a class='trait current' href='trait.Rng.html'>Rng</a><br/><a class='trait ' href='trait.SeedableRng.html'>SeedableRng</a><br/></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.random.html'>random</a><br/><a class='fn ' href='fn.rng.html'>rng</a><br/><a class='fn ' href='fn.task_rng.html'>task_rng</a><br/><a class='fn ' href='fn.weak_rng.html'>weak_rng</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'>Trait <a href='index.html'>rand</a>::<a class='trait' href=''>Rng</a><a class='source' href='../src/rand/Users/richo/code/ext/rust/src/librand/lib.rs.html#105-349'>[src]</a></h1>
+<pre class='rust trait'>pub trait Rng {
+    fn <a href='#tymethod.next_u32' class='fnname'>next_u32</a>(&amp;mut self) -&gt; u32;
+
+    fn <a href='#method.next_u64' class='fnname'>next_u64</a>(&amp;mut self) -&gt; u64 { ... }
+    fn <a href='#method.fill_bytes' class='fnname'>fill_bytes</a>(&amp;mut self, dest: &amp;mut [u8]) { ... }
+    fn <a href='#method.gen' class='fnname'>gen</a>&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;(&amp;mut self) -&gt; T { ... }
+    fn <a href='#method.gen_vec' class='fnname'>gen_vec</a>&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;(&amp;mut self, len: uint) -&gt; <a class='struct' href='../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;T&gt; { ... }
+    fn <a href='#method.gen_range' class='fnname'>gen_range</a>&lt;T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/cmp/trait.Ord.html' title='core::cmp::Ord'>Ord</a> + <a class='trait' href='../rand/distributions/range/trait.SampleRange.html' title='rand::distributions::range::SampleRange'>SampleRange</a>&gt;(&amp;mut self, low: T, high: T) -&gt; T { ... }
+    fn <a href='#method.gen_weighted_bool' class='fnname'>gen_weighted_bool</a>(&amp;mut self, n: uint) -&gt; bool { ... }
+    fn <a href='#method.gen_ascii_str' class='fnname'>gen_ascii_str</a>(&amp;mut self, len: uint) -&gt; ~str { ... }
+    fn <a href='#method.choose' class='fnname'>choose</a>&lt;T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt;(&amp;mut self, values: &amp;[T]) -&gt; T { ... }
+    fn <a href='#method.choose_option' class='fnname'>choose_option</a>&lt;'a, T&gt;(&amp;mut self, values: &amp;'a [T]) -&gt; <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a T&gt; { ... }
+    fn <a href='#method.shuffle' class='fnname'>shuffle</a>&lt;T&gt;(&amp;mut self, values: &amp;mut [T]) { ... }
+    fn <a href='#method.shuffle_mut' class='fnname'>shuffle_mut</a>&lt;T&gt;(&amp;mut self, values: &amp;mut [T]) { ... }
+    fn <a href='#method.sample' class='fnname'>sample</a>&lt;A, T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;A&gt;&gt;(&amp;mut self, iter: T, n: uint) -&gt; <a class='struct' href='../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;A&gt; { ... }
+}</pre><div class='docblock'><p>A random number generator.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.next_u32' class='method'><code>fn <a href='#tymethod.next_u32' class='fnname'>next_u32</a>(&amp;mut self) -&gt; u32</code></h3><div class='docblock'><p>Return the next random u32.</p>
+
+<p>This rarely needs to be called directly, prefer <code>r.gen()</code> to
+<code>r.next_u32()</code>.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.next_u64' class='method'><code>fn <a href='#method.next_u64' class='fnname'>next_u64</a>(&amp;mut self) -&gt; u64</code></h3><div class='docblock'><p>Return the next random u64.</p>
+
+<p>By default this is implemented in terms of <code>next_u32</code>. An
+implementation of this trait must provide at least one of
+these two methods. Similarly to <code>next_u32</code>, this rarely needs
+to be called directly, prefer <code>r.gen()</code> to <code>r.next_u64()</code>.</p>
+</div><h3 id='method.fill_bytes' class='method'><code>fn <a href='#method.fill_bytes' class='fnname'>fill_bytes</a>(&amp;mut self, dest: &amp;mut [u8])</code></h3><div class='docblock'><p>Fill <code>dest</code> with random data.</p>
+
+<p>This has a default implementation in terms of <code>next_u64</code> and
+<code>next_u32</code>, but should be overridden by implementations that
+offer a more efficient solution than just calling those
+methods repeatedly.</p>
+
+<p>This method does <em>not</em> have a requirement to bear any fixed
+relationship to the other methods, for example, it does <em>not</em>
+have to result in the same output as progressively filling
+<code>dest</code> with <code>self.gen::&lt;u8&gt;()</code>, and any such behaviour should
+not be relied upon.</p>
+
+<p>This method should guarantee that <code>dest</code> is entirely filled
+with new data, and may fail if this is impossible
+(e.g. reading past the end of a file that is being used as the
+source of randomness).</p>
+
+<h1 id="example" class='section-header'><a
+                           href="#example">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> [<span class='number'>0u8</span>, .. <span class='number'>13579</span>];
+<span class='ident'>task_rng</span>().<span class='ident'>fill_bytes</span>(<span class='ident'>v</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>v</span>);
+</pre>
+</div><h3 id='method.gen' class='method'><code>fn <a href='#method.gen' class='fnname'>gen</a>&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;(&amp;mut self) -&gt; T</code></h3><div class='docblock'><p>Return a random value of a <code>Rand</code> type.</p>
+
+<h1 id="example-1" class='section-header'><a
+                           href="#example-1">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>uint</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>gen</span>();
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>gen</span>::<span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>bool</span>)<span class='op'>&gt;</span>());
+</pre>
+</div><h3 id='method.gen_vec' class='method'><code>fn <a href='#method.gen_vec' class='fnname'>gen_vec</a>&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;(&amp;mut self, len: uint) -&gt; <a class='struct' href='../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;T&gt;</code></h3><div class='docblock'><p>Return a random vector of the specified length.</p>
+
+<h1 id="example-2" class='section-header'><a
+                           href="#example-2">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>uint</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>gen_vec</span>(<span class='number'>10</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>gen_vec</span>::<span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>bool</span>)<span class='op'>&gt;</span>(<span class='number'>5</span>));
+</pre>
+</div><h3 id='method.gen_range' class='method'><code>fn <a href='#method.gen_range' class='fnname'>gen_range</a>&lt;T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/cmp/trait.Ord.html' title='core::cmp::Ord'>Ord</a> + <a class='trait' href='../rand/distributions/range/trait.SampleRange.html' title='rand::distributions::range::SampleRange'>SampleRange</a>&gt;(&amp;mut self, low: T, high: T) -&gt; T</code></h3><div class='docblock'><p>Generate a random value in the range [<code>low</code>, <code>high</code>). Fails if
+<code>low &gt;= high</code>.</p>
+
+<p>This is a convenience wrapper around
+<code>distributions::Range</code>. If this function will be called
+repeatedly with the same arguments, one should use <code>Range</code>, as
+that will amortize the computations that allow for perfect
+uniformity, as they only happen on initialization.</p>
+
+<h1 id="example-3" class='section-header'><a
+                           href="#example-3">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='kw'>let</span> <span class='ident'>n</span>: <span class='ident'>uint</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>gen_range</span>(<span class='number'>0u</span>, <span class='number'>10</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>n</span>);
+<span class='kw'>let</span> <span class='ident'>m</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>gen_range</span>(<span class='op'>-</span><span class='number'>40.0</span>, <span class='number'>1.3e5</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>m</span>);
+</pre>
+</div><h3 id='method.gen_weighted_bool' class='method'><code>fn <a href='#method.gen_weighted_bool' class='fnname'>gen_weighted_bool</a>(&amp;mut self, n: uint) -&gt; bool</code></h3><div class='docblock'><p>Return a bool with a 1 in n chance of true</p>
+
+<h1 id="example-4" class='section-header'><a
+                           href="#example-4">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:b}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>gen_weighted_bool</span>(<span class='number'>3</span>));
+</pre>
+</div><h3 id='method.gen_ascii_str' class='method'><code>fn <a href='#method.gen_ascii_str' class='fnname'>gen_ascii_str</a>(&amp;mut self, len: uint) -&gt; ~str</code></h3><div class='docblock'><p>Return a random string of the specified length composed of
+A-Z,a-z,0-9.</p>
+
+<h1 id="example-5" class='section-header'><a
+                           href="#example-5">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>task_rng</span>().<span class='ident'>gen_ascii_str</span>(<span class='number'>10</span>));
+</pre>
+</div><h3 id='method.choose' class='method'><code>fn <a href='#method.choose' class='fnname'>choose</a>&lt;T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt;(&amp;mut self, values: &amp;[T]) -&gt; T</code></h3><div class='docblock'><p>Choose an item randomly, failing if <code>values</code> is empty.</p>
+</div><h3 id='method.choose_option' class='method'><code>fn <a href='#method.choose_option' class='fnname'>choose_option</a>&lt;'a, T&gt;(&amp;mut self, values: &amp;'a [T]) -&gt; <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a T&gt;</code></h3><div class='docblock'><p>Choose <code>Some(&amp;item)</code> randomly, returning <code>None</code> if values is
+empty.</p>
+
+<h1 id="example-6" class='section-header'><a
+                           href="#example-6">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='ident'>choices</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>4</span>, <span class='number'>8</span>, <span class='number'>16</span>, <span class='number'>32</span>];
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>choose_option</span>(<span class='ident'>choices</span>));
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>rng</span>.<span class='ident'>choose_option</span>(<span class='ident'>choices</span>.<span class='ident'>slice_to</span>(<span class='number'>0</span>)));
+</pre>
+</div><h3 id='method.shuffle' class='method'><code>fn <a href='#method.shuffle' class='fnname'>shuffle</a>&lt;T&gt;(&amp;mut self, values: &amp;mut [T])</code></h3><div class='docblock'><p>Shuffle a mutable slice in place.</p>
+
+<h1 id="example-7" class='section-header'><a
+                           href="#example-7">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> [<span class='number'>1</span>,<span class='number'>2</span>,<span class='number'>3</span>];
+<span class='ident'>rng</span>.<span class='ident'>shuffle</span>(<span class='ident'>y</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>y</span>.<span class='ident'>as_slice</span>());
+<span class='ident'>rng</span>.<span class='ident'>shuffle</span>(<span class='ident'>y</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>y</span>.<span class='ident'>as_slice</span>());
+</pre>
+</div><h3 id='method.shuffle_mut' class='method'><code>fn <a href='#method.shuffle_mut' class='fnname'>shuffle_mut</a>&lt;T&gt;(&amp;mut self, values: &amp;mut [T])</code></h3><div class='docblock'><p>Shuffle a mutable slice in place.</p>
+</div><h3 id='method.sample' class='method'><code>fn <a href='#method.sample' class='fnname'>sample</a>&lt;A, T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;A&gt;&gt;(&amp;mut self, iter: T, n: uint) -&gt; <a class='struct' href='../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;A&gt;</code></h3><div class='docblock'><p>Randomly sample up to <code>n</code> elements from an iterator.</p>
+
+<h1 id="example-8" class='section-header'><a
+                           href="#example-8">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>task_rng</span>, <span class='ident'>Rng</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>task_rng</span>();
+<span class='kw'>let</span> <span class='ident'>sample</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>sample</span>(<span class='ident'>range</span>(<span class='number'>1</span>, <span class='number'>100</span>), <span class='number'>5</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>sample</span>);
+</pre>
+</div></div>
+                <h2 id='implementors'>Implementors</h2>
+                <ul class='item-list'>
+            <li><code><a class='struct' href='../rand/struct.TaskRng.html' title='rand::TaskRng'>TaskRng</a></code></li><li><code><a class='struct' href='../rand/struct.XorShiftRng.html' title='rand::XorShiftRng'>XorShiftRng</a></code></li><li><code><a class='struct' href='../rand/struct.StdRng.html' title='rand::StdRng'>StdRng</a></code></li><li><code><a class='struct' href='../rand/reseeding/struct.ReseedingRng.html' title='rand::reseeding::ReseedingRng'>ReseedingRng</a>&lt;R, Rsdr&gt;</code></li><li><code><a class='struct' href='../rand/reader/struct.ReaderRng.html' title='rand::reader::ReaderRng'>ReaderRng</a>&lt;R&gt;</code></li><li><code><a class='struct' href='../rand/struct.OSRng.html' title='rand::OSRng'>OSRng</a></code></li><li><code><a class='struct' href='../rand/isaac/struct.Isaac64Rng.html' title='rand::isaac::Isaac64Rng'>Isaac64Rng</a></code></li><li><code><a class='struct' href='../rand/isaac/struct.IsaacRng.html' title='rand::isaac::IsaacRng'>IsaacRng</a></code></li></ul></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../";
+        var currentCrate = "rand";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script async src="../search-index.js"></script>
+</body>
+</html>

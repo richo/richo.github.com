@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The green library documentation.">
+
+    <title>green::task::GreenTask - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../../green/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='../index.html'>green</a>&#8203;::<a href='index.html'>task</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.GreenTask.html'>GreenTask</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='../index.html'>green</a>::<a href='index.html'>task</a>::<a class='struct' href=''>GreenTask</a><a class='source' href='../../src/green/Users/richo/code/ext/rust/src/libgreen/task.rs.html#40-71'>[src]</a></h1>
+<pre class='rust struct'>pub struct GreenTask {
+    pub coroutine: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../green/coroutine/struct.Coroutine.html' title='green::coroutine::Coroutine'>Coroutine</a>&gt;,
+    pub handle: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../green/sched/struct.SchedHandle.html' title='green::sched::SchedHandle'>SchedHandle</a>&gt;,
+    pub sched: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/sched/struct.Scheduler.html' title='green::sched::Scheduler'>Scheduler</a>&gt;&gt;,
+    pub task: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;&gt;,
+    pub task_type: <a class='type' href='../../green/task/type.TaskType.html' title='green::task::TaskType'>TaskType</a>,
+    pub pool_id: uint,
+    pub nasty_deschedule_lock: <a class='struct' href='../../std/unstable/mutex/struct.NativeMutex.html' title='std::unstable::mutex::NativeMutex'>NativeMutex</a>,
+}</pre><div class='docblock'><p>The necessary fields needed to keep track of a green task (as opposed to a
+1:1 task).</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield.coroutine'><code>coroutine</code></td><td><div class='docblock'><p>Coroutine that this task is running on, otherwise known as the register
+context and the stack that this task owns. This field is optional to
+relinquish ownership back to a scheduler to recycle stacks at a later
+date.</p>
+</div></td></tr><tr><td id='structfield.handle'><code>handle</code></td><td><div class='docblock'><p>Optional handle back into the home sched pool of this task. This field
+is lazily initialized.</p>
+</div></td></tr><tr><td id='structfield.sched'><code>sched</code></td><td><div class='docblock'><p>Slot for maintaining ownership of a scheduler. If a task is running,
+this value will be Some(sched) where the task is running on &quot;sched&quot;.</p>
+</div></td></tr><tr><td id='structfield.task'><code>task</code></td><td><div class='docblock'><p>Temporary ownership slot of a std::rt::task::Task object. This is used
+to squirrel that libstd task away while we&#39;re performing green task
+operations.</p>
+</div></td></tr><tr><td id='structfield.task_type'><code>task_type</code></td><td><div class='docblock'><p>Dictates whether this is a sched task or a normal green task</p>
+</div></td></tr><tr><td id='structfield.pool_id'><code>pool_id</code></td><td><div class='docblock'><p>Home pool that this task was spawned into. This field is lazily
+initialized until when the task is initially scheduled, and is used to
+make sure that tasks are always woken up in the correct pool of
+schedulers.</p>
+</div></td></tr><tr><td id='structfield.nasty_deschedule_lock'><code>nasty_deschedule_lock</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(stack_pool: &amp;mut <a class='struct' href='../../green/stack/struct.StackPool.html' title='green::stack::StackPool'>StackPool</a>, stack_size: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;uint&gt;, start: proc(): <a class='trait' href='http://static.rust-lang.org/doc/master/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a new green task which is not homed to any particular scheduler
+and will not have any contained Task structure.</p>
+</div><h4 id='method.new_homed' class='method'><code>fn <a href='#method.new_homed' class='fnname'>new_homed</a>(stack_pool: &amp;mut <a class='struct' href='../../green/stack/struct.StackPool.html' title='green::stack::StackPool'>StackPool</a>, stack_size: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;uint&gt;, home: <a class='type' href='../../green/task/type.Home.html' title='green::task::Home'>Home</a>, start: proc(): <a class='trait' href='http://static.rust-lang.org/doc/master/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a new task (like <code>new</code>), but specifies the home for new task.</p>
+</div><h4 id='method.new_typed' class='method'><code>fn <a href='#method.new_typed' class='fnname'>new_typed</a>(coroutine: <a class='type' href='http://static.rust-lang.org/doc/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../green/coroutine/struct.Coroutine.html' title='green::coroutine::Coroutine'>Coroutine</a>&gt;, task_type: <a class='type' href='../../green/task/type.TaskType.html' title='green::task::TaskType'>TaskType</a>) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a new green task with the specified coroutine and type, this is
+useful when creating scheduler tasks.</p>
+</div><h4 id='method.configure' class='method'><code>fn <a href='#method.configure' class='fnname'>configure</a>(pool: &amp;mut <a class='struct' href='../../green/stack/struct.StackPool.html' title='green::stack::StackPool'>StackPool</a>, opts: <a class='struct' href='../../std/task/struct.TaskOpts.html' title='std::task::TaskOpts'>TaskOpts</a>, f: proc(): <a class='trait' href='http://static.rust-lang.org/doc/master/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a new green task with the given configuration options for the
+contained Task object. The given stack pool is also used to allocate a
+new stack for this task.</p>
+</div><h4 id='method.convert' class='method'><code>fn <a href='#method.convert' class='fnname'>convert</a>(task: <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a>&gt;</code></h4>
+<div class='docblock'><p>Just like the <code>maybe_take_runtime</code> function, this function should <em>not</em>
+exist. Usage of this function is <em>strongly</em> discouraged. This is an
+absolute last resort necessary for converting a libstd task to a green
+task.</p>
+
+<p>This function will assert that the task is indeed a green task before
+returning (and will kill the entire process if this is wrong).</p>
+</div><h4 id='method.give_home' class='method'><code>fn <a href='#method.give_home' class='fnname'>give_home</a>(&amp;mut self, new_home: <a class='type' href='../../green/task/type.Home.html' title='green::task::Home'>Home</a>)</code></h4>
+<h4 id='method.take_unwrap_home' class='method'><code>fn <a href='#method.take_unwrap_home' class='fnname'>take_unwrap_home</a>(&amp;mut self) -&gt; <a class='type' href='../../green/task/type.Home.html' title='green::task::Home'>Home</a></code></h4>
+<h4 id='method.is_home_no_tls' class='method'><code>fn <a href='#method.is_home_no_tls' class='fnname'>is_home_no_tls</a>(&amp;self, sched: &amp;<a class='struct' href='../../green/sched/struct.Scheduler.html' title='green::sched::Scheduler'>Scheduler</a>) -&gt; bool</code></h4>
+<h4 id='method.homed' class='method'><code>fn <a href='#method.homed' class='fnname'>homed</a>(&amp;self) -&gt; bool</code></h4>
+<h4 id='method.is_sched' class='method'><code>fn <a href='#method.is_sched' class='fnname'>is_sched</a>(&amp;self) -&gt; bool</code></h4>
+<h4 id='method.as_uint' class='method'><code>fn <a href='#method.as_uint' class='fnname'>as_uint</a>(&amp;self) -&gt; uint</code></h4>
+<h4 id='method.from_uint' class='method'><code>unsafe fn <a href='#method.from_uint' class='fnname'>from_uint</a>(val: uint) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/task/struct.GreenTask.html' title='green::task::GreenTask'>GreenTask</a>&gt;</code></h4>
+<h4 id='method.put_with_sched' class='method'><code>fn <a href='#method.put_with_sched' class='fnname'>put_with_sched</a>(~self, sched: <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../green/sched/struct.Scheduler.html' title='green::sched::Scheduler'>Scheduler</a>&gt;)</code></h4>
+<h4 id='method.put_task' class='method'><code>fn <a href='#method.put_task' class='fnname'>put_task</a>(&amp;mut self, task: <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;)</code></h4>
+<h4 id='method.swap' class='method'><code>fn <a href='#method.swap' class='fnname'>swap</a>(~self) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;</code></h4>
+<h4 id='method.put' class='method'><code>fn <a href='#method.put' class='fnname'>put</a>(~self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../";
+        var currentCrate = "green";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

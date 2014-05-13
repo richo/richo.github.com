@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The glob library documentation.">
+
+    <title>glob::Pattern - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../glob/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='index.html'>glob</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.MatchOptions.html'>MatchOptions</a><br/><a class='struct ' href='struct.Paths.html'>Paths</a><br/><a class='struct current' href='struct.Pattern.html'>Pattern</a><br/></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.glob.html'>glob</a><br/><a class='fn ' href='fn.glob_with.html'>glob_with</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='index.html'>glob</a>::<a class='struct' href=''>Pattern</a><a class='source' href='../src/glob/Users/richo/code/ext/rust/src/libglob/lib.rs.html#202-204'>[src]</a></h1>
+<pre class='rust struct'>pub struct Pattern {
+    // some fields omitted
+}</pre><div class='docblock'><p>A compiled Unix shell style pattern.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../glob/struct.Pattern.html' title='glob::Pattern'>Pattern</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(pattern: &amp;str) -&gt; <a class='struct' href='../glob/struct.Pattern.html' title='glob::Pattern'>Pattern</a></code></h4>
+<div class='docblock'><p>This function compiles Unix shell style patterns: <code>?</code> matches any single
+character, <code>*</code> matches any (possibly empty) sequence of characters and
+<code>[...]</code> matches any character inside the brackets, unless the first
+character is <code>!</code> in which case it matches any character except those
+between the <code>!</code> and the <code>]</code>. Character sequences can also specify ranges
+of characters, as ordered by Unicode, so e.g. <code>[0-9]</code> specifies any
+character between 0 and 9 inclusive.</p>
+
+<p>The metacharacters <code>?</code>, <code>*</code>, <code>[</code>, <code>]</code> can be matched by using brackets
+(e.g. <code>[?]</code>).  When a <code>]</code> occurs immediately following <code>[</code> or <code>[!</code> then
+it is interpreted as being part of, rather then ending, the character
+set, so <code>]</code> and NOT <code>]</code> can be matched by <code>[]]</code> and <code>[!]]</code> respectively.
+The <code>-</code> character can be specified inside a character sequence pattern by
+placing it at the start or the end, e.g. <code>[abc-]</code>.</p>
+
+<p>When a <code>[</code> does not have a closing <code>]</code> before the end of the string then
+the <code>[</code> will be treated literally.</p>
+</div><h4 id='method.escape' class='method'><code>fn <a href='#method.escape' class='fnname'>escape</a>(s: &amp;str) -&gt; ~str</code></h4>
+<div class='docblock'><p>Escape metacharacters within the given string by surrounding them in
+brackets. The resulting string will, when compiled into a <code>Pattern</code>,
+match the input string and nothing else.</p>
+</div><h4 id='method.matches' class='method'><code>fn <a href='#method.matches' class='fnname'>matches</a>(&amp;self, str: &amp;str) -&gt; bool</code></h4>
+<div class='docblock'><p>Return if the given <code>str</code> matches this <code>Pattern</code> using the default
+match options (i.e. <code>MatchOptions::new()</code>).</p>
+
+<h1 id="example" class='section-header'><a
+                           href="#example">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>glob</span>::<span class='ident'>Pattern</span>;
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;c?t&quot;</span>).<span class='ident'>matches</span>(<span class='string'>&quot;cat&quot;</span>));
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;k[!e]tteh&quot;</span>).<span class='ident'>matches</span>(<span class='string'>&quot;kitteh&quot;</span>));
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;d*g&quot;</span>).<span class='ident'>matches</span>(<span class='string'>&quot;doog&quot;</span>));
+</pre>
+</div><h4 id='method.matches_path' class='method'><code>fn <a href='#method.matches_path' class='fnname'>matches_path</a>(&amp;self, path: &amp;<a class='struct' href='../std/path/posix/struct.Path.html' title='std::path::posix::Path'>Path</a>) -&gt; bool</code></h4>
+<div class='docblock'><p>Return if the given <code>Path</code>, when converted to a <code>str</code>, matches this <code>Pattern</code>
+using the default match options (i.e. <code>MatchOptions::new()</code>).</p>
+</div><h4 id='method.matches_with' class='method'><code>fn <a href='#method.matches_with' class='fnname'>matches_with</a>(&amp;self, str: &amp;str, options: <a class='struct' href='../glob/struct.MatchOptions.html' title='glob::MatchOptions'>MatchOptions</a>) -&gt; bool</code></h4>
+<div class='docblock'><p>Return if the given <code>str</code> matches this <code>Pattern</code> using the specified match options.</p>
+</div><h4 id='method.matches_path_with' class='method'><code>fn <a href='#method.matches_path_with' class='fnname'>matches_path_with</a>(&amp;self, path: &amp;<a class='struct' href='../std/path/posix/struct.Path.html' title='std::path::posix::Path'>Path</a>, options: <a class='struct' href='../glob/struct.MatchOptions.html' title='glob::MatchOptions'>MatchOptions</a>) -&gt; bool</code></h4>
+<div class='docblock'><p>Return if the given <code>Path</code>, when converted to a <code>str</code>, matches this <code>Pattern</code>
+using the specified match options.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../";
+        var currentCrate = "glob";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script async src="../search-index.js"></script>
+</body>
+</html>

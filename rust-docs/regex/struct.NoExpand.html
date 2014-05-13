@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The regex library documentation.">
+
+    <title>regex::NoExpand - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../regex/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='index.html'>regex</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Captures.html'>Captures</a><br/><a class='struct ' href='struct.Error.html'>Error</a><br/><a class='struct ' href='struct.FindCaptures.html'>FindCaptures</a><br/><a class='struct ' href='struct.FindMatches.html'>FindMatches</a><br/><a class='struct current' href='struct.NoExpand.html'>NoExpand</a><br/><a class='struct ' href='struct.Regex.html'>Regex</a><br/><a class='struct ' href='struct.RegexSplits.html'>RegexSplits</a><br/><a class='struct ' href='struct.RegexSplitsN.html'>RegexSplitsN</a><br/><a class='struct ' href='struct.SubCaptures.html'>SubCaptures</a><br/><a class='struct ' href='struct.SubCapturesPos.html'>SubCapturesPos</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Replacer.html'>Replacer</a><br/></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.is_match.html'>is_match</a><br/><a class='fn ' href='fn.quote.html'>quote</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='index.html'>regex</a>::<a class='struct' href=''>NoExpand</a><a class='source' href='../src/regex/Users/richo/code/ext/rust/src/libregex/re.rs.html#504'>[src]</a></h1>
+<pre class='rust struct'>pub struct NoExpand&lt;'t&gt;(pub &amp;'t str);</pre><div class='docblock'><p>NoExpand indicates literal string replacement.</p>
+
+<p>It can be used with <code>replace</code> and <code>replace_all</code> to do a literal
+string replacement without expanding <code>$name</code> to their corresponding
+capture groups.</p>
+
+<p><code>&#39;r</code> is the lifetime of the literal text.</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'t&gt; <a class='trait' href='../regex/re/trait.Replacer.html' title='regex::re::Replacer'>Replacer</a> for <a class='struct' href='../regex/struct.NoExpand.html' title='regex::NoExpand'>NoExpand</a>&lt;'t&gt;</code></h3><div class='methods'><h4 id='method.reg_replace' class='method'><code>fn <a href='#method.reg_replace' class='fnname'>reg_replace</a>&lt;'a&gt;(&amp;'a mut self, _: &amp;<a class='struct' href='../regex/struct.Captures.html' title='regex::Captures'>Captures</a>) -&gt; <a class='type' href='../std/str/type.MaybeOwned.html' title='std::str::MaybeOwned'>MaybeOwned</a>&lt;'a&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../";
+        var currentCrate = "regex";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script async src="../search-index.js"></script>
+</body>
+</html>

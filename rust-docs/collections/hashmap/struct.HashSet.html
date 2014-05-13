@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The collections library documentation.">
+
+    <title>collections::hashmap::HashSet - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../../collections/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='../index.html'>collections</a>&#8203;::<a href='index.html'>hashmap</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.HashMap.html'>HashMap</a><br/><a class='struct current' href='struct.HashSet.html'>HashSet</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='../index.html'>collections</a>::<a href='index.html'>hashmap</a>::<a class='struct' href=''>HashSet</a><a class='source' href='../../src/collections/Users/richo/code/ext/rust/src/libcollections/hashmap.rs.html#1448-1450'>[src]</a></h1>
+<pre class='rust struct'>pub struct HashSet&lt;T, H&gt; {
+    // some fields omitted
+}</pre><div class='docblock'><p>An implementation of a hash set using the underlying representation of a
+HashMap where the value is (). As with the <code>HashMap</code> type, a <code>HashSet</code>
+requires that the elements implement the <code>Eq</code> and <code>Hash</code> traits.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a> + <a class='trait' href='http://static.rust-lang.org/doc/master/core/cmp/trait.TotalEq.html' title='core::cmp::TotalEq'>TotalEq</a>&gt; <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, <a class='struct' href='../../std/hash/sip/struct.SipHasher.html' title='std::hash::sip::SipHasher'>SipHasher</a>&gt;</code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, <a class='struct' href='../../std/hash/sip/struct.SipHasher.html' title='std::hash::sip::SipHasher'>SipHasher</a>&gt;</code></h4>
+<div class='docblock'><p>Create an empty HashSet</p>
+</div><h4 id='method.with_capacity' class='method'><code>fn <a href='#method.with_capacity' class='fnname'>with_capacity</a>(capacity: uint) -&gt; <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, <a class='struct' href='../../std/hash/sip/struct.SipHasher.html' title='std::hash::sip::SipHasher'>SipHasher</a>&gt;</code></h4>
+<div class='docblock'><p>Create an empty HashSet with space for at least <code>n</code> elements in
+the hash table.</p>
+</div></div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='http://static.rust-lang.org/doc/master/core/cmp/trait.TotalEq.html' title='core::cmp::TotalEq'>TotalEq</a> + <a class='trait' href='../../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a>&lt;S&gt;, S, H: <a class='trait' href='../../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a>&lt;S&gt;&gt; <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;</code></h3><div class='methods'><h4 id='method.with_hasher' class='method'><code>fn <a href='#method.with_hasher' class='fnname'>with_hasher</a>(hasher: H) -&gt; <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;</code></h4>
+<h4 id='method.with_capacity_and_hasher' class='method'><code>fn <a href='#method.with_capacity_and_hasher' class='fnname'>with_capacity_and_hasher</a>(capacity: uint, hasher: H) -&gt; <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;</code></h4>
+<div class='docblock'><p>Create an empty HashSet with space for at least <code>capacity</code>
+elements in the hash table, using <code>hasher</code> to hash the keys.</p>
+
+<p>Warning: <code>hasher</code> is normally randomly generated, and
+is designed to allow <code>HashSet</code>s to be resistant to attacks that
+cause many collisions and very poor performance. Setting it
+manually using this function can expose a DoS attack vector.</p>
+</div><h4 id='method.reserve' class='method'><code>fn <a href='#method.reserve' class='fnname'>reserve</a>(&amp;mut self, n: uint)</code></h4>
+<div class='docblock'><p>Reserve space for at least <code>n</code> elements in the hash table.</p>
+</div><h4 id='method.contains_equiv' class='method'><code>fn <a href='#method.contains_equiv' class='fnname'>contains_equiv</a>&lt;Q: <a class='trait' href='../../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a>&lt;S&gt; + <a class='trait' href='http://static.rust-lang.org/doc/master/core/cmp/trait.Equiv.html' title='core::cmp::Equiv'>Equiv</a>&lt;T&gt;&gt;(&amp;self, value: &amp;Q) -&gt; bool</code></h4>
+<div class='docblock'><p>Returns true if the hash set contains a value equivalent to the
+given query value.</p>
+</div><h4 id='method.iter' class='method'><code>fn <a href='#method.iter' class='fnname'>iter</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='type' href='../../collections/hashmap/type.SetItems.html' title='collections::hashmap::SetItems'>SetItems</a>&lt;'a, T&gt;</code></h4>
+<div class='docblock'><p>An iterator visiting all elements in arbitrary order.
+Iterator element type is &amp;&#39;a T.</p>
+</div><h4 id='method.move_iter' class='method'><code>fn <a href='#method.move_iter' class='fnname'>move_iter</a>(self) -&gt; <a class='type' href='../../collections/hashmap/type.SetMoveItems.html' title='collections::hashmap::SetMoveItems'>SetMoveItems</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Creates a consuming iterator, that is, one that moves each value out
+of the set in arbitrary order. The set cannot be used after calling
+this.</p>
+</div><h4 id='method.difference' class='method'><code>fn <a href='#method.difference' class='fnname'>difference</a>&lt;'a&gt;(&amp;'a self, other: &amp;'a <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;) -&gt; <a class='type' href='../../collections/hashmap/type.SetAlgebraItems.html' title='collections::hashmap::SetAlgebraItems'>SetAlgebraItems</a>&lt;'a, T, H&gt;</code></h4>
+<div class='docblock'><p>Visit the values representing the difference</p>
+</div><h4 id='method.symmetric_difference' class='method'><code>fn <a href='#method.symmetric_difference' class='fnname'>symmetric_difference</a>&lt;'a&gt;(&amp;'a self, other: &amp;'a <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/iter/struct.Chain.html' title='core::iter::Chain'>Chain</a>&lt;<a class='type' href='../../collections/hashmap/type.SetAlgebraItems.html' title='collections::hashmap::SetAlgebraItems'>SetAlgebraItems</a>&lt;'a, T, H&gt;, <a class='type' href='../../collections/hashmap/type.SetAlgebraItems.html' title='collections::hashmap::SetAlgebraItems'>SetAlgebraItems</a>&lt;'a, T, H&gt;&gt;</code></h4>
+<div class='docblock'><p>Visit the values representing the symmetric difference</p>
+</div><h4 id='method.intersection' class='method'><code>fn <a href='#method.intersection' class='fnname'>intersection</a>&lt;'a&gt;(&amp;'a self, other: &amp;'a <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;) -&gt; <a class='type' href='../../collections/hashmap/type.SetAlgebraItems.html' title='collections::hashmap::SetAlgebraItems'>SetAlgebraItems</a>&lt;'a, T, H&gt;</code></h4>
+<div class='docblock'><p>Visit the values representing the intersection</p>
+</div><h4 id='method.union' class='method'><code>fn <a href='#method.union' class='fnname'>union</a>&lt;'a&gt;(&amp;'a self, other: &amp;'a <a class='struct' href='../../collections/hashmap/struct.HashSet.html' title='collections::hashmap::HashSet'>HashSet</a>&lt;T, H&gt;) -&gt; <a class='struct' href='http://static.rust-lang.org/doc/master/core/iter/struct.Chain.html' title='core::iter::Chain'>Chain</a>&lt;<a class='type' href='../../collections/hashmap/type.SetItems.html' title='collections::hashmap::SetItems'>SetItems</a>&lt;'a, T&gt;, <a class='type' href='../../collections/hashmap/type.SetAlgebraItems.html' title='collections::hashmap::SetAlgebraItems'>SetAlgebraItems</a>&lt;'a, T, H&gt;&gt;</code></h4>
+<div class='docblock'><p>Visit the values representing the union</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../";
+        var currentCrate = "collections";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

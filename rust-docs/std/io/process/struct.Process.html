@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The std library documentation.">
+
+    <title>std::io::process::Process - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../../../std/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='../../index.html'>std</a>&#8203;::<a href='../index.html'>io</a>&#8203;::<a href='index.html'>process</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Process.html'>Process</a><br/><a class='struct ' href='struct.ProcessConfig.html'>ProcessConfig</a><br/><a class='struct ' href='struct.ProcessOutput.html'>ProcessOutput</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='../../index.html'>std</a>::<a href='../index.html'>io</a>::<a href='index.html'>process</a>::<a class='struct' href=''>Process</a><a class='source' href='../../../src/std/src/libstd/io/process.rs.html#55-73'>[src]</a></h1>
+<pre class='rust struct'>pub struct Process {
+    pub stdin: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/io/pipe/struct.PipeStream.html' title='std::io::pipe::PipeStream'>PipeStream</a>&gt;,
+    pub stdout: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/io/pipe/struct.PipeStream.html' title='std::io::pipe::PipeStream'>PipeStream</a>&gt;,
+    pub stderr: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/io/pipe/struct.PipeStream.html' title='std::io::pipe::PipeStream'>PipeStream</a>&gt;,
+    pub extra_io: <a class='struct' href='../../../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;<a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/io/pipe/struct.PipeStream.html' title='std::io::pipe::PipeStream'>PipeStream</a>&gt;&gt;,
+    // some fields omitted
+}</pre><div class='docblock'><p>Representation of a running or exited child process.</p>
+
+<p>This structure is used to create, run, and manage child processes. A process
+is configured with the <code>ProcessConfig</code> struct which contains specific
+options for dictating how the child is spawned.</p>
+
+<h1 id="example" class='section-header'><a
+                           href="#example">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Process</span>;
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>child</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Process</span>::<span class='ident'>new</span>(<span class='string'>&quot;/bin/cat&quot;</span>, [<span class='string'>&quot;file.txt&quot;</span>.<span class='ident'>to_owned</span>()]) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>child</span>) <span class='op'>=&gt;</span> <span class='ident'>child</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;failed to execute child: {}&quot;</span>, <span class='ident'>e</span>),
+};
+
+<span class='kw'>let</span> <span class='ident'>contents</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>stdout</span>.<span class='ident'>get_mut_ref</span>().<span class='ident'>read_to_end</span>();
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>child</span>.<span class='ident'>wait</span>().<span class='ident'>success</span>());
+</pre>
+</div><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield.stdin'><code>stdin</code></td><td><div class='docblock'><p>Handle to the child&#39;s stdin, if the <code>stdin</code> field of this process&#39;s
+<code>ProcessConfig</code> was <code>CreatePipe</code>. By default, this handle is <code>Some</code>.</p>
+</div></td></tr><tr><td id='structfield.stdout'><code>stdout</code></td><td><div class='docblock'><p>Handle to the child&#39;s stdout, if the <code>stdout</code> field of this process&#39;s
+<code>ProcessConfig</code> was <code>CreatePipe</code>. By default, this handle is <code>Some</code>.</p>
+</div></td></tr><tr><td id='structfield.stderr'><code>stderr</code></td><td><div class='docblock'><p>Handle to the child&#39;s stderr, if the <code>stderr</code> field of this process&#39;s
+<code>ProcessConfig</code> was <code>CreatePipe</code>. By default, this handle is <code>Some</code>.</p>
+</div></td></tr><tr><td id='structfield.extra_io'><code>extra_io</code></td><td><div class='docblock'><p>Extra I/O handles as configured by the original <code>ProcessConfig</code> when
+this process was created. This is by default empty.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../std/io/process/struct.Process.html' title='std::io::process::Process'>Process</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(prog: &amp;str, args: &amp;[~str]) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../../../std/io/process/struct.Process.html' title='std::io::process::Process'>Process</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a new process for the specified program/arguments, using
+otherwise default configuration.</p>
+
+<p>By default, new processes have their stdin/stdout/stderr handles created
+as pipes the can be manipulated through the respective fields of the
+returned <code>Process</code>.</p>
+
+<h1 id="example-1" class='section-header'><a
+                           href="#example-1">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Process</span>;
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>process</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Process</span>::<span class='ident'>new</span>(<span class='string'>&quot;sh&quot;</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;c&quot;</span>.<span class='ident'>to_owned</span>(), <span class='string'>&quot;echo hello&quot;</span>.<span class='ident'>to_owned</span>()]) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;failed to execute process: {}&quot;</span>, <span class='ident'>e</span>),
+};
+
+<span class='kw'>let</span> <span class='ident'>output</span> <span class='op'>=</span> <span class='ident'>process</span>.<span class='ident'>stdout</span>.<span class='ident'>get_mut_ref</span>().<span class='ident'>read_to_end</span>();
+</pre>
+</div><h4 id='method.output' class='method'><code>fn <a href='#method.output' class='fnname'>output</a>(prog: &amp;str, args: &amp;[~str]) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../../../std/io/process/struct.ProcessOutput.html' title='std::io::process::ProcessOutput'>ProcessOutput</a>&gt;</code></h4>
+<div class='docblock'><p>Executes the specified program with arguments, waiting for it to finish
+and collecting all of its output.</p>
+
+<h1 id="example-2" class='section-header'><a
+                           href="#example-2">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Process</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
+
+<span class='kw'>let</span> <span class='ident'>output</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Process</span>::<span class='ident'>output</span>(<span class='string'>&quot;cat&quot;</span>, [<span class='string'>&quot;foo.txt&quot;</span>.<span class='ident'>to_owned</span>()]) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>output</span>) <span class='op'>=&gt;</span> <span class='ident'>output</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;failed to execute process: {}&quot;</span>, <span class='ident'>e</span>),
+};
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;status: {}&quot;</span>, <span class='ident'>output</span>.<span class='ident'>status</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;stdout: {}&quot;</span>, <span class='ident'>str</span>::<span class='ident'>from_utf8_lossy</span>(<span class='ident'>output</span>.<span class='ident'>output</span>.<span class='ident'>as_slice</span>()));
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;stderr: {}&quot;</span>, <span class='ident'>str</span>::<span class='ident'>from_utf8_lossy</span>(<span class='ident'>output</span>.<span class='ident'>error</span>.<span class='ident'>as_slice</span>()));
+</pre>
+</div><h4 id='method.status' class='method'><code>fn <a href='#method.status' class='fnname'>status</a>(prog: &amp;str, args: &amp;[~str]) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='type' href='../../../std/io/process/type.ProcessExit.html' title='std::io::process::ProcessExit'>ProcessExit</a>&gt;</code></h4>
+<div class='docblock'><p>Executes a child process and collects its exit status. This will block
+waiting for the child to exit.</p>
+
+<h1 id="example-3" class='section-header'><a
+                           href="#example-3">Example</a></h1><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Process</span>;
+
+<span class='kw'>let</span> <span class='ident'>status</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Process</span>::<span class='ident'>status</span>(<span class='string'>&quot;ls&quot;</span>, []) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>status</span>) <span class='op'>=&gt;</span> <span class='ident'>status</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;failed to execute process: {}&quot;</span>, <span class='ident'>e</span>),
+};
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;process exited with: {}&quot;</span>, <span class='ident'>status</span>);
+</pre>
+</div><h4 id='method.configure' class='method'><code>fn <a href='#method.configure' class='fnname'>configure</a>(config: <a class='struct' href='../../../std/io/process/struct.ProcessConfig.html' title='std::io::process::ProcessConfig'>ProcessConfig</a>) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../../../std/io/process/struct.Process.html' title='std::io::process::Process'>Process</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a new process with the specified configuration.</p>
+</div><h4 id='method.kill' class='method'><code>fn <a href='#method.kill' class='fnname'>kill</a>(id: <a class='type' href='../../../libc/types/os/arch/posix88/type.pid_t.html' title='libc::types::os::arch::posix88::pid_t'>pid_t</a>, signal: int) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;()&gt;</code></h4>
+<div class='docblock'><p>Sends <code>signal</code> to another process in the system identified by <code>id</code>.</p>
+
+<p>Note that windows doesn&#39;t quite have the same model as unix, so some
+unix signals are mapped to windows signals. Notably, unix termination
+signals (SIGTERM/SIGKILL/SIGINT) are translated to <code>TerminateProcess</code>.</p>
+
+<p>Additionally, a signal number of 0 can check for existence of the target
+process. Note, though, that on some platforms signals will continue to
+be successfully delivered if the child has exited, but not yet been
+reaped.</p>
+</div><h4 id='method.id' class='method'><code>fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; <a class='type' href='../../../libc/types/os/arch/posix88/type.pid_t.html' title='libc::types::os::arch::posix88::pid_t'>pid_t</a></code></h4>
+<div class='docblock'><p>Returns the process id of this child process</p>
+</div><h4 id='method.signal' class='method'><code>fn <a href='#method.signal' class='fnname'>signal</a>(&amp;mut self, signal: int) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;()&gt;</code></h4>
+<div class='docblock'><p>Sends the specified signal to the child process, returning whether the
+signal could be delivered or not.</p>
+
+<p>Note that signal 0 is interpreted as a poll to check whether the child
+process is still alive or not. If an error is returned, then the child
+process has exited.</p>
+
+<p>On some unix platforms signals will continue to be received after a
+child has exited but not yet been reaped. In order to report the status
+of signal delivery correctly, unix implementations may invoke
+<code>waitpid()</code> with <code>WNOHANG</code> in order to reap the child as necessary.</p>
+
+<h1 id="errors" class='section-header'><a
+                           href="#errors">Errors</a></h1>
+<p>If the signal delivery fails, the corresponding error is returned.</p>
+</div><h4 id='method.signal_exit' class='method'><code>fn <a href='#method.signal_exit' class='fnname'>signal_exit</a>(&amp;mut self) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;()&gt;</code></h4>
+<div class='docblock'><p>Sends a signal to this child requesting that it exits. This is
+equivalent to sending a SIGTERM on unix platforms.</p>
+</div><h4 id='method.signal_kill' class='method'><code>fn <a href='#method.signal_kill' class='fnname'>signal_kill</a>(&amp;mut self) -&gt; <a class='type' href='../../../std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;()&gt;</code></h4>
+<div class='docblock'><p>Sends a signal to this child forcing it to exit. This is equivalent to
+sending a SIGKILL on unix platforms.</p>
+</div><h4 id='method.wait' class='method'><code>fn <a href='#method.wait' class='fnname'>wait</a>(&amp;mut self) -&gt; <a class='type' href='../../../std/io/process/type.ProcessExit.html' title='std::io::process::ProcessExit'>ProcessExit</a></code></h4>
+<div class='docblock'><p>Wait for the child to exit completely, returning the status that it
+exited with. This function will continue to have the same return value
+after it has been called at least once.</p>
+
+<p>The stdin handle to the child process will be closed before waiting.</p>
+</div><h4 id='method.wait_with_output' class='method'><code>fn <a href='#method.wait_with_output' class='fnname'>wait_with_output</a>(&amp;mut self) -&gt; <a class='struct' href='../../../std/io/process/struct.ProcessOutput.html' title='std::io::process::ProcessOutput'>ProcessOutput</a></code></h4>
+<div class='docblock'><p>Simultaneously wait for the child to exit and collect all remaining
+output on the stdout/stderr handles, returning a <code>ProcessOutput</code>
+instance.</p>
+
+<p>The stdin handle to the child is closed before waiting.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../../";
+        var currentCrate = "std";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script async src="../../../search-index.js"></script>
+</body>
+</html>

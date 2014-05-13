@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The rustdoc library documentation.">
+
+    <title>rustdoc::clean::Type - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+
+        <p class='location'><a href='../index.html'>rustdoc</a>&#8203;::<a href='index.html'>clean</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Argument.html'>Argument</a><br/><a class='struct ' href='struct.Arguments.html'>Arguments</a><br/><a class='struct ' href='struct.BareFunctionDecl.html'>BareFunctionDecl</a><br/><a class='struct ' href='struct.ClosureDecl.html'>ClosureDecl</a><br/><a class='struct ' href='struct.Crate.html'>Crate</a><br/><a class='struct ' href='struct.Enum.html'>Enum</a><br/><a class='struct ' href='struct.ExternalCrate.html'>ExternalCrate</a><br/><a class='struct ' href='struct.FnDecl.html'>FnDecl</a><br/><a class='struct ' href='struct.Function.html'>Function</a><br/><a class='struct ' href='struct.Generics.html'>Generics</a><br/><a class='struct ' href='struct.Impl.html'>Impl</a><br/><a class='struct ' href='struct.ImportSource.html'>ImportSource</a><br/><a class='struct ' href='struct.Item.html'>Item</a><br/><a class='struct ' href='struct.Lifetime.html'>Lifetime</a><br/><a class='struct ' href='struct.Macro.html'>Macro</a><br/><a class='struct ' href='struct.Method.html'>Method</a><br/><a class='struct ' href='struct.Module.html'>Module</a><br/><a class='struct ' href='struct.Path.html'>Path</a><br/><a class='struct ' href='struct.PathSegment.html'>PathSegment</a><br/><a class='struct ' href='struct.Span.html'>Span</a><br/><a class='struct ' href='struct.Static.html'>Static</a><br/><a class='struct ' href='struct.Struct.html'>Struct</a><br/><a class='struct ' href='struct.Trait.html'>Trait</a><br/><a class='struct ' href='struct.TyMethod.html'>TyMethod</a><br/><a class='struct ' href='struct.TyParam.html'>TyParam</a><br/><a class='struct ' href='struct.Typedef.html'>Typedef</a><br/><a class='struct ' href='struct.Variant.html'>Variant</a><br/><a class='struct ' href='struct.VariantStruct.html'>VariantStruct</a><br/><a class='struct ' href='struct.ViewItem.html'>ViewItem</a><br/><a class='struct ' href='struct.ViewListIdent.html'>ViewListIdent</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Clean.html'>Clean</a><br/><a class='trait ' href='trait.ToSource.html'>ToSource</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content type">
+<h1 class='fqn'>Enum <a href='../index.html'>rustdoc</a>::<a href='index.html'>clean</a>::<a class='type' href=''>Type</a><a class='source' href='../../src/rustdoc/Users/richo/code/ext/rust/src/librustdoc/clean.rs.html#668-706'>[src]</a></h1>
+<pre class='rust enum'>pub enum Type {
+    ResolvedPath {
+        pub path: <a class='struct' href='../../rustdoc/clean/struct.Path.html' title='rustdoc::clean::Path'>Path</a>,
+        pub typarams: <a class='type' href='../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;<a class='type' href='../../rustdoc/clean/type.TyParamBound.html' title='rustdoc::clean::TyParamBound'>TyParamBound</a>&gt;&gt;,
+        pub did: <a class='struct' href='http://static.rust-lang.org/doc/master/syntax/ast/struct.DefId.html' title='syntax::ast::DefId'>DefId</a>,
+    },
+    TyParamBinder(<a class='type' href='http://static.rust-lang.org/doc/master/syntax/ast/type.NodeId.html' title='syntax::ast::NodeId'>NodeId</a>),
+    Generic(<a class='type' href='http://static.rust-lang.org/doc/master/syntax/ast/type.NodeId.html' title='syntax::ast::NodeId'>NodeId</a>),
+    Self(<a class='type' href='http://static.rust-lang.org/doc/master/syntax/ast/type.NodeId.html' title='syntax::ast::NodeId'>NodeId</a>),
+    Primitive(<a class='type' href='http://static.rust-lang.org/doc/master/syntax/ast/type.PrimTy.html' title='syntax::ast::PrimTy'>PrimTy</a>),
+    Closure(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../rustdoc/clean/struct.ClosureDecl.html' title='rustdoc::clean::ClosureDecl'>ClosureDecl</a>&gt;, <a class='type' href='../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../rustdoc/clean/struct.Lifetime.html' title='rustdoc::clean::Lifetime'>Lifetime</a>&gt;),
+    Proc(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../rustdoc/clean/struct.ClosureDecl.html' title='rustdoc::clean::ClosureDecl'>ClosureDecl</a>&gt;),
+    BareFunction(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../rustdoc/clean/struct.BareFunctionDecl.html' title='rustdoc::clean::BareFunctionDecl'>BareFunctionDecl</a>&gt;),
+    Tuple(<a class='struct' href='../../std/vec/struct.Vec.html' title='std::vec::Vec'>Vec</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;),
+    Vector(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;),
+    FixedVector(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;, ~str),
+    String,
+    Bool,
+    Unit,
+    Bottom,
+    Unique(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;),
+    Managed(<a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;),
+    RawPointer(<a class='type' href='../../rustdoc/clean/type.Mutability.html' title='rustdoc::clean::Mutability'>Mutability</a>, <a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;),
+    BorrowedRef {
+        pub lifetime: <a class='type' href='../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../rustdoc/clean/struct.Lifetime.html' title='rustdoc::clean::Lifetime'>Lifetime</a>&gt;,
+        pub mutability: <a class='type' href='../../rustdoc/clean/type.Mutability.html' title='rustdoc::clean::Mutability'>Mutability</a>,
+        pub type_: <a class='struct' href='../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='type' href='../../rustdoc/clean/type.Type.html' title='rustdoc::clean::Type'>Type</a>&gt;,
+    },
+}</pre><div class='docblock'><p>A representation of a Type suitable for hyperlinking purposes. Ideally one can get the original
+type out of the AST/ty::ctxt given one of these, if more information is needed. Most importantly
+it does not preserve mutability or boxes.</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.ResolvedPath'><code>ResolvedPath</code></td><td><div class='docblock'><p>structs/enums/traits (anything that&#39;d be an ast::TyPath)</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.ResolvedPath.field.path'><code>path</code></td><td></td></tr><tr><td id='variant.ResolvedPath.field.typarams'><code>typarams</code></td><td></td></tr><tr><td id='variant.ResolvedPath.field.did'><code>did</code></td><td></td></tr></table></td></tr><tr><td id='variant.TyParamBinder'><code>TyParamBinder</code></td><td></td></tr><tr><td id='variant.Generic'><code>Generic</code></td><td><div class='docblock'><p>For parameterized types, so the consumer of the JSON don&#39;t go looking
+for types which don&#39;t exist anywhere.</p>
+</div></td></tr><tr><td id='variant.Self'><code>Self</code></td><td><div class='docblock'><p>For references to self</p>
+</div></td></tr><tr><td id='variant.Primitive'><code>Primitive</code></td><td><div class='docblock'><p>Primitives are just the fixed-size numeric types (plus int/uint/float), and char.</p>
+</div></td></tr><tr><td id='variant.Closure'><code>Closure</code></td><td></td></tr><tr><td id='variant.Proc'><code>Proc</code></td><td></td></tr><tr><td id='variant.BareFunction'><code>BareFunction</code></td><td><div class='docblock'><p>extern &quot;ABI&quot; fn</p>
+</div></td></tr><tr><td id='variant.Tuple'><code>Tuple</code></td><td></td></tr><tr><td id='variant.Vector'><code>Vector</code></td><td></td></tr><tr><td id='variant.FixedVector'><code>FixedVector</code></td><td></td></tr><tr><td id='variant.String'><code>String</code></td><td></td></tr><tr><td id='variant.Bool'><code>Bool</code></td><td></td></tr><tr><td id='variant.Unit'><code>Unit</code></td><td><div class='docblock'><p>aka TyNil</p>
+</div></td></tr><tr><td id='variant.Bottom'><code>Bottom</code></td><td><div class='docblock'><p>aka TyBot</p>
+</div></td></tr><tr><td id='variant.Unique'><code>Unique</code></td><td></td></tr><tr><td id='variant.Managed'><code>Managed</code></td><td></td></tr><tr><td id='variant.RawPointer'><code>RawPointer</code></td><td></td></tr><tr><td id='variant.BorrowedRef'><code>BorrowedRef</code></td><td><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.BorrowedRef.field.lifetime'><code>lifetime</code></td><td></td></tr><tr><td id='variant.BorrowedRef.field.mutability'><code>mutability</code></td><td></td></tr><tr><td id='variant.BorrowedRef.field.type_'><code>type_</code></td><td></td></tr></table></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../";
+        var currentCrate = "rustdoc";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

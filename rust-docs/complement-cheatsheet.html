@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="rustdoc">
+    <title>Rust Cheatsheet</title>
+
+    <link rel="stylesheet" type="text/css" href="rust.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400'
+        rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <div id="versioninfo">
+  <img src="http://www.rust-lang.org/logos/rust-logo-32x32-blk.png" width="32" height="32" alt><br>
+  <span class="white-sticker"><a href="http://rust-lang.org">Rust</a> 0.11-pre</span><br>
+  <a href="http://github.com/mozilla/rust/commit/1c05eafe98f478cbddde41b839a0c8673cf99554"
+    class="hash white-sticker">1c05eafe</a>
+</div>
+
+
+    <h1 class="title">Rust Cheatsheet</h1>
+    <nav id="TOC"><ul>
+<li><a href="#how-do-i-convert-<em>x</em>-to-<em>y</em>?">1 How do I convert <em>X</em> to <em>Y</em>?</a><ul></ul></li>
+<li><a href="#file-operations">2 File operations</a><ul>
+<li><a href="#how-do-i-read-from-a-file?">2.1 How do I read from a file?</a><ul></ul></li>
+<li><a href="#how-do-i-iterate-over-the-lines-in-a-file?">2.2 How do I iterate over the lines in a file?</a><ul></ul></li></ul></li>
+<li><a href="#string-operations">3 String operations</a><ul>
+<li><a href="#how-do-i-search-for-a-substring?">3.1 How do I search for a substring?</a><ul></ul></li></ul></li>
+<li><a href="#containers">4 Containers</a><ul>
+<li><a href="#how-do-i-get-the-length-of-a-vector?">4.1 How do I get the length of a vector?</a><ul></ul></li>
+<li><a href="#how-do-i-iterate-over-a-vector?">4.2 How do I iterate over a vector?</a><ul></ul></li></ul></li>
+<li><a href="#type-system">5 Type system</a><ul>
+<li><a href="#how-do-i-store-a-function-in-a-struct?">5.1 How do I store a function in a struct?</a><ul></ul></li>
+<li><a href="#how-do-i-express-phantom-types?">5.2 How do I express phantom types?</a><ul></ul></li></ul></li>
+<li><a href="#ffi-(foreign-function-interface)">6 FFI (Foreign Function Interface)</a><ul>
+<li><a href="#c-function-signature-conversions">6.1 C function signature conversions</a><ul>
+<li><a href="#representing-opaque-handles">6.1.1 Representing opaque handles</a><ul></ul></li></ul></li></ul></li>
+<li><a href="#contributing-to-this-page">7 Contributing to this page</a><ul></ul></li></ul></nav>
+<h1 id="how-do-i-convert-<em>x</em>-to-<em>y</em>?" class='section-header'><a
+                           href="#how-do-i-convert-<em>x</em>-to-<em>y</em>?">1 How do I convert <em>X</em> to <em>Y</em>?</a></h1>
+<p><strong>Int to string</strong></p>
+
+<p>Use <a href="http://static.rust-lang.org/doc/master/std/to_str/trait.ToStr.html"><code>ToStr</code></a>.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>int</span> <span class='op'>=</span> <span class='number'>42</span>;
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>to_str</span>();
+</pre>
+
+<p><strong>String to int</strong></p>
+
+<p>Use <a href="http://static.rust-lang.org/doc/master/std/from_str/trait.FromStr.html"><code>FromStr</code></a>, and its helper function, <a href="http://static.rust-lang.org/doc/master/std/from_str/fn.from_str.html"><code>from_str</code></a>.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>int</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>from_str</span>(<span class='string'>&quot;42&quot;</span>);
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>int</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>unwrap</span>();
+</pre>
+
+<p><strong>Int to string, in non-base-10</strong></p>
+
+<p>Use the <code>format!</code> syntax extension.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>int</span> <span class='op'>=</span> <span class='number'>42</span>;
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:t}&quot;</span>, <span class='ident'>x</span>);<span class='comment'>   // binary
+</span><span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:o}&quot;</span>, <span class='ident'>x</span>);<span class='comment'>   // octal
+</span><span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:x}&quot;</span>, <span class='ident'>x</span>);<span class='comment'>   // lowercase hexadecimal
+</span><span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:X}&quot;</span>, <span class='ident'>x</span>);<span class='comment'>   // uppercase hexadecimal
+</span></pre>
+
+<p><strong>String to int, in non-base-10</strong></p>
+
+<p>Use <a href="http://static.rust-lang.org/doc/master/std/num/trait.FromStrRadix.html"><code>FromStrRadix</code></a>, and its helper function, <a href="http://static.rust-lang.org/doc/master/std/num/fn.from_str_radix.html"><code>from_str_radix</code></a>.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>num</span>;
+
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>num</span>::<span class='ident'>from_str_radix</span>(<span class='string'>&quot;deadbeef&quot;</span>, <span class='number'>16</span>);
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>unwrap</span>();
+</pre>
+
+<p><strong>Vector of Bytes to String</strong></p>
+
+<p>To return a Borrowed String Slice (&amp;str) use the str helper function <a href="http://static.rust-lang.org/doc/master/std/str/fn.from_utf8.html"><code>from_utf8</code></a>.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
+
+<span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='kw-2'>~</span>[<span class='number'>104u8</span>,<span class='number'>105u8</span>];
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>str</span>::<span class='ident'>from_utf8</span>(<span class='ident'>bytes</span>);
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>unwrap</span>();
+</pre>
+
+<p>To return an Owned String (~str) use the str helper function <a href="http://static.rust-lang.org/doc/master/std/str/fn.from_utf8_owned.html"><code>from_utf8_owned</code></a>.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
+
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>~</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>str</span>::<span class='ident'>from_utf8_owned</span>(<span class='kw-2'>~</span>[<span class='number'>104u8</span>,<span class='number'>105u8</span>]);
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>~</span><span class='ident'>str</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>unwrap</span>();
+</pre>
+
+<p>To return a <a href="http://static.rust-lang.org/doc/master/std/str/enum.MaybeOwned.html"><code>MaybeOwned</code></a> use the str helper function <a href="http://static.rust-lang.org/doc/master/std/str/fn.from_utf8_owned.html"><code>from_utf8_lossy</code></a>.  This function also replaces non-valid utf-8 sequences with U+FFFD replacement character.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
+
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='macro'>bytes</span><span class='macro'>!</span>(<span class='number'>72u8</span>,<span class='string'>&quot;ello &quot;</span>,<span class='number'>0xF0</span>,<span class='number'>0x90</span>,<span class='number'>0x80</span>,<span class='string'>&quot;World!&quot;</span>);
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>str</span>::<span class='ident'>from_utf8_lossy</span>(<span class='ident'>x</span>);
+</pre>
+
+<h1 id="file-operations" class='section-header'><a
+                           href="#file-operations">2 File operations</a></h1>
+<h2 id="how-do-i-read-from-a-file?" class='section-header'><a
+                           href="#how-do-i-read-from-a-file?">2.1 How do I read from a file?</a></h2>
+<p>Use <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html#method.open"><code>File::open</code></a> to create a <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html"><code>File</code></a> struct, which implements the <a href="http://static.rust-lang.org/doc/master/std/io/trait.Reader.html"><code>Reader</code></a> trait.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
+
+<span class='kw'>let</span> <span class='ident'>path</span> : <span class='ident'>Path</span>   <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;Doc-FAQ-Cheatsheet.md&quot;</span>);
+<span class='kw'>let</span> <span class='ident'>on_error</span>      <span class='op'>=</span> <span class='op'>||</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;open of {:?} failed&quot;</span>, <span class='ident'>path</span>);
+<span class='kw'>let</span> <span class='ident'>reader</span> : <span class='ident'>File</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>).<span class='ident'>unwrap_or_else</span>(<span class='ident'>on_error</span>);
+</pre>
+
+<h2 id="how-do-i-iterate-over-the-lines-in-a-file?" class='section-header'><a
+                           href="#how-do-i-iterate-over-the-lines-in-a-file?">2.2 How do I iterate over the lines in a file?</a></h2>
+<p>Use the <a href="http://static.rust-lang.org/doc/master/std/io/trait.Buffer.html#method.lines"><code>lines</code></a> method on a <a href="http://static.rust-lang.org/doc/master/std/io/buffered/struct.BufferedReader.html"><code>BufferedReader</code></a>.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>BufferedReader</span>;
+
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>BufferedReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>);
+<span class='kw'>for</span> <span class='ident'>line</span> <span class='kw'>in</span> <span class='ident'>reader</span>.<span class='ident'>lines</span>() {
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;line: {}&quot;</span>, <span class='ident'>line</span>);
+}
+</pre>
+
+<h1 id="string-operations" class='section-header'><a
+                           href="#string-operations">3 String operations</a></h1>
+<h2 id="how-do-i-search-for-a-substring?" class='section-header'><a
+                           href="#how-do-i-search-for-a-substring?">3.1 How do I search for a substring?</a></h2>
+<p>Use the <a href="http://static.rust-lang.org/doc/master/std/str/trait.StrSlice.html#tymethod.find_str"><code>find_str</code></a> method.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Hello, this is some random string&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>index</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>uint</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>str</span>.<span class='ident'>find_str</span>(<span class='string'>&quot;rand&quot;</span>);
+</pre>
+
+<h1 id="containers" class='section-header'><a
+                           href="#containers">4 Containers</a></h1>
+<h2 id="how-do-i-get-the-length-of-a-vector?" class='section-header'><a
+                           href="#how-do-i-get-the-length-of-a-vector?">4.1 How do I get the length of a vector?</a></h2>
+<p>The <a href="http://static.rust-lang.org/doc/master/std/container/trait.Container.html"><code>Container</code></a> trait provides the <code>len</code> method.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>u</span>: <span class='kw-2'>~</span>[<span class='ident'>u32</span>] <span class='op'>=</span> <span class='kw-2'>~</span>[<span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>2</span>];
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u32</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
+<span class='kw'>let</span> <span class='ident'>w</span>: [<span class='ident'>u32</span>, .. <span class='number'>5</span>] <span class='op'>=</span> [<span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;u: {}, v: {}, w: {}&quot;</span>, <span class='ident'>u</span>.<span class='ident'>len</span>(), <span class='ident'>v</span>.<span class='ident'>len</span>(), <span class='ident'>w</span>.<span class='ident'>len</span>());<span class='comment'> // 3, 4, 5
+</span></pre>
+
+<h2 id="how-do-i-iterate-over-a-vector?" class='section-header'><a
+                           href="#how-do-i-iterate-over-a-vector?">4.2 How do I iterate over a vector?</a></h2>
+<p>Use the <a href="http://static.rust-lang.org/doc/master/std/vec/trait.ImmutableVector.html#tymethod.iter"><code>iter</code></a> method.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>values</span>: <span class='kw-2'>~</span>[<span class='ident'>int</span>] <span class='op'>=</span> <span class='kw-2'>~</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
+<span class='kw'>for</span> <span class='ident'>value</span> <span class='kw'>in</span> <span class='ident'>values</span>.<span class='ident'>iter</span>() {<span class='comment'>  // value: &amp;int
+    </span><span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='op'>*</span><span class='ident'>value</span>);
+}
+</pre>
+
+<p>(See also <a href="http://static.rust-lang.org/doc/master/std/vec/trait.MutableVector.html#tymethod.mut_iter"><code>mut_iter</code></a> which yields <code>&amp;mut int</code> and <a href="http://static.rust-lang.org/doc/master/std/vec/trait.OwnedVector.html#tymethod.move_iter"><code>move_iter</code></a> which yields <code>int</code> while consuming the <code>values</code> vector.)</p>
+
+<h1 id="type-system" class='section-header'><a
+                           href="#type-system">5 Type system</a></h1>
+<h2 id="how-do-i-store-a-function-in-a-struct?" class='section-header'><a
+                           href="#how-do-i-store-a-function-in-a-struct?">5.1 How do I store a function in a struct?</a></h2><pre class='rust '>
+<span class='kw'>struct</span> <span class='ident'>Foo</span> {
+    <span class='ident'>myfunc</span>: <span class='kw'>fn</span>(<span class='ident'>int</span>, <span class='ident'>uint</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>
+}
+
+<span class='kw'>struct</span> <span class='ident'>FooClosure</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='ident'>myfunc</span>: <span class='op'>|</span><span class='ident'>int</span>, <span class='ident'>uint</span><span class='op'>|</span>: <span class='lifetime'>&#39;a</span> <span class='op'>-&gt;</span> <span class='ident'>i32</span>
+}
+
+<span class='kw'>fn</span> <span class='ident'>a</span>(<span class='ident'>a</span>: <span class='ident'>int</span>, <span class='ident'>b</span>: <span class='ident'>uint</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    (<span class='ident'>a</span> <span class='kw'>as</span> <span class='ident'>uint</span> <span class='op'>+</span> <span class='ident'>b</span>) <span class='kw'>as</span> <span class='ident'>i32</span>
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>Foo</span> { <span class='ident'>myfunc</span>: <span class='ident'>a</span> };
+    <span class='kw'>let</span> <span class='ident'>g</span> <span class='op'>=</span> <span class='ident'>FooClosure</span> { <span class='ident'>myfunc</span>: <span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span>  { (<span class='ident'>a</span> <span class='op'>-</span> <span class='ident'>b</span> <span class='kw'>as</span> <span class='ident'>int</span>) <span class='kw'>as</span> <span class='ident'>i32</span> } };
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, (<span class='ident'>f</span>.<span class='ident'>myfunc</span>)(<span class='number'>1</span>, <span class='number'>2</span>));
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, (<span class='ident'>g</span>.<span class='ident'>myfunc</span>)(<span class='number'>3</span>, <span class='number'>4</span>));
+}
+</pre>
+
+<p>Note that the parenthesis surrounding <code>f.myfunc</code> are necessary: they are how Rust disambiguates field lookup and method call. The <code>&#39;a</code> on <code>FooClosure</code> is the lifetime of the closure&#39;s environment pointer.</p>
+
+<h2 id="how-do-i-express-phantom-types?" class='section-header'><a
+                           href="#how-do-i-express-phantom-types?">5.2 How do I express phantom types?</a></h2>
+<p><a href="http://www.haskell.org/haskellwiki/Phantom_type">Phantom types</a> are those that cannot be constructed at compile time. To express these in Rust, zero-variant <code>enum</code>s can be used:</p>
+<pre class='rust '>
+<span class='kw'>enum</span> <span class='ident'>Open</span> {}
+<span class='kw'>enum</span> <span class='ident'>Closed</span> {}
+</pre>
+
+<p>Phantom types are useful for enforcing state at compile time. For example:</p>
+<pre class='rust '>
+<span class='kw'>struct</span> <span class='ident'>Door</span><span class='op'>&lt;</span><span class='ident'>State</span><span class='op'>&gt;</span>(<span class='kw-2'>~</span><span class='ident'>str</span>);
+
+<span class='kw'>struct</span> <span class='ident'>Open</span>;
+<span class='kw'>struct</span> <span class='ident'>Closed</span>;
+
+<span class='kw'>fn</span> <span class='ident'>close</span>(<span class='ident'>Door</span>(<span class='ident'>name</span>): <span class='ident'>Door</span><span class='op'>&lt;</span><span class='ident'>Open</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Door</span><span class='op'>&lt;</span><span class='ident'>Closed</span><span class='op'>&gt;</span> {
+    <span class='ident'>Door</span>::<span class='op'>&lt;</span><span class='ident'>Closed</span><span class='op'>&gt;</span>(<span class='ident'>name</span>)
+}
+
+<span class='kw'>fn</span> <span class='ident'>open</span>(<span class='ident'>Door</span>(<span class='ident'>name</span>): <span class='ident'>Door</span><span class='op'>&lt;</span><span class='ident'>Closed</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Door</span><span class='op'>&lt;</span><span class='ident'>Open</span><span class='op'>&gt;</span> {
+    <span class='ident'>Door</span>::<span class='op'>&lt;</span><span class='ident'>Open</span><span class='op'>&gt;</span>(<span class='ident'>name</span>)
+}
+
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>close</span>(<span class='ident'>Door</span>::<span class='op'>&lt;</span><span class='ident'>Open</span><span class='op'>&gt;</span>(<span class='string'>&quot;front&quot;</span>.<span class='ident'>to_owned</span>()));
+</pre>
+
+<p>Attempting to close a closed door is prevented statically:</p>
+<pre class='rust '>
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>close</span>(<span class='ident'>Door</span>::<span class='op'>&lt;</span><span class='ident'>Closed</span><span class='op'>&gt;</span>(<span class='string'>&quot;front&quot;</span>.<span class='ident'>to_owned</span>()));<span class='comment'> // error: mismatched types: expected `main::Door&lt;main::Open&gt;` but found `main::Door&lt;main::Closed&gt;`
+</span></pre>
+
+<h1 id="ffi-(foreign-function-interface)" class='section-header'><a
+                           href="#ffi-(foreign-function-interface)">6 FFI (Foreign Function Interface)</a></h1>
+<h2 id="c-function-signature-conversions" class='section-header'><a
+                           href="#c-function-signature-conversions">6.1 C function signature conversions</a></h2>
+<table><thead>
+<tr>
+<th>Description</th>
+<th>C signature</th>
+<th>Equivalent Rust signature</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>no parameters</td>
+<td><code>void foo(void);</code></td>
+<td><code>fn foo();</code></td>
+</tr>
+<tr>
+<td>return value</td>
+<td><code>int foo(void);</code></td>
+<td><code>fn foo() -&gt; c_int;</code></td>
+</tr>
+<tr>
+<td>function parameters</td>
+<td><code>void foo(int x, int y);</code></td>
+<td><code>fn foo(x: c_int, y: c_int);</code></td>
+</tr>
+<tr>
+<td>in-out pointers</td>
+<td><code>void foo(const int* in_ptr, int* out_ptr);</code></td>
+<td><code>fn foo(in_ptr: *c_int, out_ptr: *mut c_int);</code></td>
+</tr>
+</tbody></table>
+
+<p>Note: The Rust signatures should be wrapped in an <code>extern &quot;ABI&quot; { ... }</code> block.</p>
+
+<h3 id="representing-opaque-handles" class='section-header'><a
+                           href="#representing-opaque-handles">6.1.1 Representing opaque handles</a></h3>
+<p>You might see things like this in C APIs:</p>
+
+<pre><code class="language-{.notrust}">typedef struct Window Window;
+Window* createWindow(int width, int height);</code></pre>
+
+<p>You can use a zero-element <code>enum</code> (<a href="#how-do-i-express-phantom-types">phantom type</a>) to represent the opaque object handle. The FFI would look like this:</p>
+<pre class='rust '>
+<span class='kw'>enum</span> <span class='ident'>Window</span> {}
+<span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> {
+    <span class='kw'>fn</span> <span class='ident'>createWindow</span>(<span class='ident'>width</span>: <span class='ident'>c_int</span>, <span class='ident'>height</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='ident'>Window</span>;
+}
+</pre>
+
+<p>Using a phantom type ensures that the handles cannot be (safely) constructed in client code.</p>
+
+<h1 id="contributing-to-this-page" class='section-header'><a
+                           href="#contributing-to-this-page">7 Contributing to this page</a></h1>
+<p>For small examples, have full type annotations, as much as is reasonable, to keep it clear what, exactly, everything is doing. Try to link to the API docs, as well.</p>
+
+<p>Similar documents for other programming languages:</p>
+
+<ul>
+<li><a href="http://pleac.sourceforge.net">http://pleac.sourceforge.net/</a></li>
+</ul>
+
+    <footer><p>
+Copyright &copy; 2011-2014 The Rust Project Developers. Licensed under the
+<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+or the <a href="http://opensource.org/licenses/MIT">MIT license</a>, at your option.
+</p><p>
+This file may not be copied, modified, or distributed except according to those terms.
+</p></footer>
+
+
+</body>
+</html>

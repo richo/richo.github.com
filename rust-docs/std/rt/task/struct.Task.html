@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The std library documentation.">
+
+    <title>std::rt::task::Task - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+
+    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+            <a href='../../../std/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+
+        <p class='location'><a href='../../index.html'>std</a>&#8203;::<a href='../index.html'>rt</a>&#8203;::<a href='index.html'>task</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.BlockedTasks.html'>BlockedTasks</a><br/><a class='struct ' href='struct.Death.html'>Death</a><br/><a class='struct ' href='struct.GarbageCollector.html'>GarbageCollector</a><br/><a class='struct ' href='struct.LocalStorage.html'>LocalStorage</a><br/><a class='struct current' href='struct.Task.html'>Task</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='../../index.html'>std</a>::<a href='../index.html'>rt</a>::<a href='index.html'>task</a>::<a class='struct' href=''>Task</a><a class='source' href='../../../src/std/src/libstd/rt/task.rs.html#46-59'>[src]</a></h1>
+<pre class='rust struct'>pub struct Task {
+    pub heap: <a class='struct' href='../../../std/rt/local_heap/struct.LocalHeap.html' title='std::rt::local_heap::LocalHeap'>LocalHeap</a>,
+    pub gc: <a class='struct' href='../../../std/rt/task/struct.GarbageCollector.html' title='std::rt::task::GarbageCollector'>GarbageCollector</a>,
+    pub storage: <a class='struct' href='../../../std/rt/task/struct.LocalStorage.html' title='std::rt::task::LocalStorage'>LocalStorage</a>,
+    pub unwinder: <a class='struct' href='../../../std/rt/unwind/struct.Unwinder.html' title='std::rt::unwind::Unwinder'>Unwinder</a>,
+    pub death: <a class='struct' href='../../../std/rt/task/struct.Death.html' title='std::rt::task::Death'>Death</a>,
+    pub destroyed: bool,
+    pub name: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../../std/str/type.SendStr.html' title='std::str::SendStr'>SendStr</a>&gt;,
+    pub stdout: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='trait' href='../../../std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>:<a class='trait' href='../../../core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt;&gt;,
+    pub stderr: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='trait' href='../../../std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>:<a class='trait' href='../../../core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt;&gt;,
+    // some fields omitted
+}</pre><div class='docblock'><p>The Task struct represents all state associated with a rust
+task. There are at this point two primary &quot;subtypes&quot; of task,
+however instead of using a subtype we just have a &quot;task_type&quot; field
+in the struct. This contains a pointer to another struct that holds
+the type-specific state.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield.heap'><code>heap</code></td><td></td></tr><tr><td id='structfield.gc'><code>gc</code></td><td></td></tr><tr><td id='structfield.storage'><code>storage</code></td><td></td></tr><tr><td id='structfield.unwinder'><code>unwinder</code></td><td></td></tr><tr><td id='structfield.death'><code>death</code></td><td></td></tr><tr><td id='structfield.destroyed'><code>destroyed</code></td><td></td></tr><tr><td id='structfield.name'><code>name</code></td><td></td></tr><tr><td id='structfield.stdout'><code>stdout</code></td><td></td></tr><tr><td id='structfield.stderr'><code>stderr</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a></code></h4>
+<h4 id='method.run' class='method'><code>fn <a href='#method.run' class='fnname'>run</a>(~self, f: ||) -&gt; <a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;</code></h4>
+<div class='docblock'><p>Executes the given closure as if it&#39;s running inside this task. The task
+is consumed upon entry, and the destroyed task is returned from this
+function in order for the caller to free. This function is guaranteed to
+not unwind because the closure specified is run inside of a <code>rust_try</code>
+block. (this is the only try/catch block in the world).</p>
+
+<p>This function is <em>not</em> meant to be abused as a &quot;try/catch&quot; block. This
+is meant to be used at the absolute boundaries of a task&#39;s lifetime, and
+only for that purpose.</p>
+</div><h4 id='method.put_runtime' class='method'><code>fn <a href='#method.put_runtime' class='fnname'>put_runtime</a>(&amp;mut self, ops: <a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='trait' href='../../../std/rt/trait.Runtime.html' title='std::rt::Runtime'>Runtime</a>:<a class='trait' href='../../../core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt;)</code></h4>
+<div class='docblock'><p>Inserts a runtime object into this task, transferring ownership to the
+task. It is illegal to replace a previous runtime object in this task
+with this argument.</p>
+</div><h4 id='method.maybe_take_runtime' class='method'><code>fn <a href='#method.maybe_take_runtime' class='fnname'>maybe_take_runtime</a>&lt;T: 'static&gt;(&amp;mut self) -&gt; <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;T&gt;&gt;</code></h4>
+<div class='docblock'><p>Attempts to extract the runtime as a specific type. If the runtime does
+not have the provided type, then the runtime is not removed. If the
+runtime does have the specified type, then it is removed and returned
+(transfer of ownership).</p>
+
+<p>It is recommended to only use this method when <em>absolutely necessary</em>.
+This function may not be available in the future.</p>
+</div><h4 id='method.spawn_sibling' class='method'><code>fn <a href='#method.spawn_sibling' class='fnname'>spawn_sibling</a>(~self, opts: <a class='struct' href='../../../std/task/struct.TaskOpts.html' title='std::task::TaskOpts'>TaskOpts</a>, f: proc(): <a class='trait' href='../../../core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>)</code></h4>
+<div class='docblock'><p>Spawns a sibling to this task. The newly spawned task is configured with
+the <code>opts</code> structure and will run <code>f</code> as the body of its code.</p>
+</div><h4 id='method.deschedule' class='method'><code>fn <a href='#method.deschedule' class='fnname'>deschedule</a>(~self, amt: uint, f: |<a class='type' href='../../../std/rt/task/type.BlockedTask.html' title='std::rt::task::BlockedTask'>BlockedTask</a>| -&gt; <a class='type' href='../../../core/result/type.Result.html' title='core::result::Result'>Result</a>&lt;(), <a class='type' href='../../../std/rt/task/type.BlockedTask.html' title='std::rt::task::BlockedTask'>BlockedTask</a>&gt;)</code></h4>
+<div class='docblock'><p>Deschedules the current task, invoking <code>f</code> <code>amt</code> times. It is not
+recommended to use this function directly, but rather communication
+primitives in <code>std::comm</code> should be used.</p>
+</div><h4 id='method.reawaken' class='method'><code>fn <a href='#method.reawaken' class='fnname'>reawaken</a>(~self)</code></h4>
+<div class='docblock'><p>Wakes up a previously blocked task, optionally specifying whether the
+current task can accept a change in scheduling. This function can only
+be called on tasks that were previously blocked in <code>deschedule</code>.</p>
+</div><h4 id='method.yield_now' class='method'><code>fn <a href='#method.yield_now' class='fnname'>yield_now</a>(~self)</code></h4>
+<div class='docblock'><p>Yields control of this task to another task. This function will
+eventually return, but possibly not immediately. This is used as an
+opportunity to allow other tasks a chance to run.</p>
+</div><h4 id='method.maybe_yield' class='method'><code>fn <a href='#method.maybe_yield' class='fnname'>maybe_yield</a>(~self)</code></h4>
+<div class='docblock'><p>Similar to <code>yield_now</code>, except that this function may immediately return
+without yielding (depending on what the runtime decides to do).</p>
+</div><h4 id='method.local_io' class='method'><code>fn <a href='#method.local_io' class='fnname'>local_io</a>&lt;'a&gt;(&amp;'a mut self) -&gt; <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/rt/rtio/struct.LocalIo.html' title='std::rt::rtio::LocalIo'>LocalIo</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Acquires a handle to the I/O factory that this task contains, normally
+stored in the task&#39;s runtime. This factory may not always be available,
+which is why the return type is <code>Option</code></p>
+</div><h4 id='method.stack_bounds' class='method'><code>fn <a href='#method.stack_bounds' class='fnname'>stack_bounds</a>(&amp;self) -&gt; (uint, uint)</code></h4>
+<div class='docblock'><p>Returns the stack bounds for this task in (lo, hi) format. The stack
+bounds may not be known for all tasks, so the return value may be
+<code>None</code>.</p>
+</div><h4 id='method.can_block' class='method'><code>fn <a href='#method.can_block' class='fnname'>can_block</a>(&amp;self) -&gt; bool</code></h4>
+<div class='docblock'><p>Returns whether it is legal for this task to block the OS thread that it
+is running on.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../std/rt/local/trait.Local.html' title='std::rt::local::Local'>Local</a>&lt;Borrowed&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;&gt; for <a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a></code></h3><div class='methods'><h4 id='method.put' class='method'><code>fn <a href='#method.put' class='fnname'>put</a>(value: <a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;)</code></h4>
+<h4 id='method.take' class='method'><code>fn <a href='#method.take' class='fnname'>take</a>() -&gt; <a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;</code></h4>
+<h4 id='method.try_take' class='method'><code>fn <a href='#method.try_take' class='fnname'>try_take</a>() -&gt; <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;&gt;</code></h4>
+<h4 id='method.exists' class='method'><code>fn <a href='#method.exists' class='fnname'>exists</a>(_: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;) -&gt; bool</code></h4>
+<h4 id='method.borrow' class='method'><code>fn <a href='#method.borrow' class='fnname'>borrow</a>(_: <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;) -&gt; Borrowed&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;</code></h4>
+<h4 id='method.unsafe_take' class='method'><code>unsafe fn <a href='#method.unsafe_take' class='fnname'>unsafe_take</a>() -&gt; <a class='struct' href='../../../core/owned/struct.Box.html' title='core::owned::Box'>Box</a>&lt;<a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;</code></h4>
+<h4 id='method.unsafe_borrow' class='method'><code>unsafe fn <a href='#method.unsafe_borrow' class='fnname'>unsafe_borrow</a>() -&gt; *mut <a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a></code></h4>
+<h4 id='method.try_unsafe_borrow' class='method'><code>unsafe fn <a href='#method.try_unsafe_borrow' class='fnname'>try_unsafe_borrow</a>() -&gt; <a class='type' href='../../../core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;*mut <a class='struct' href='../../../std/rt/task/struct.Task.html' title='std::rt::task::Task'>Task</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        var rootPath = "../../../";
+        var currentCrate = "std";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script async src="../../../search-index.js"></script>
+</body>
+</html>
